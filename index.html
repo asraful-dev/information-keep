@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fatulla Pilot High School - Institution Management</title>
+    <title>Fatulla Pilot High School</title>
     <style>
         * {
             margin: 0;
@@ -18,12 +18,11 @@
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1000px;
             margin: 0 auto;
             background: white;
             padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border: 1px solid #ddd;
         }
 
         .login-box {
@@ -31,20 +30,13 @@
             margin: 100px auto;
             background: white;
             padding: 30px;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid #ddd;
         }
 
         h1 {
             color: #333;
             margin-bottom: 20px;
-            font-size: 24px;
-        }
-
-        h2 {
-            color: #555;
-            margin-bottom: 15px;
-            font-size: 18px;
+            font-size: 20px;
         }
 
         .header {
@@ -53,94 +45,96 @@
             align-items: center;
             margin-bottom: 20px;
             padding-bottom: 15px;
-            border-bottom: 2px solid #eee;
+            border-bottom: 1px solid #ddd;
         }
 
         label {
             display: block;
             margin-bottom: 5px;
-            color: #555;
+            color: #333;
             font-size: 14px;
         }
 
-        input, select, textarea {
+        input, textarea {
             width: 100%;
             padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 3px;
+            border: 1px solid #ccc;
             font-size: 14px;
             font-family: Arial, sans-serif;
         }
 
-        input:focus, select:focus, textarea:focus {
+        textarea {
+            min-height: 60px;
+            resize: vertical;
+        }
+
+        input:focus, textarea:focus {
             outline: none;
-            border-color: #4CAF50;
+            border-color: #666;
         }
 
         .form-section {
-            background: #fafafa;
-            padding: 20px;
-            border-radius: 5px;
+            background: #f9f9f9;
+            padding: 15px;
+            border: 1px solid #ddd;
             margin-bottom: 20px;
-            border: 1px solid #e0e0e0;
         }
 
         .form-row {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: 1fr 1fr;
             gap: 15px;
             margin-bottom: 15px;
         }
 
         button {
             padding: 8px 20px;
-            background: #4CAF50;
+            background: #333;
             color: white;
             border: none;
-            border-radius: 3px;
             cursor: pointer;
             font-size: 14px;
         }
 
         button:hover {
-            background: #45a049;
+            background: #555;
         }
 
         .btn-logout {
-            background: #f44336;
+            background: #999;
             padding: 6px 15px;
         }
 
         .btn-logout:hover {
-            background: #da190b;
+            background: #777;
         }
 
         .btn-cancel {
-            background: #888;
+            background: #999;
         }
 
         .btn-cancel:hover {
-            background: #666;
+            background: #777;
         }
 
         .btn-edit {
-            background: #2196F3;
+            background: #555;
             padding: 5px 12px;
             font-size: 13px;
         }
 
         .btn-edit:hover {
-            background: #0b7dda;
+            background: #333;
         }
 
         .btn-delete {
-            background: #f44336;
+            background: #888;
             padding: 5px 12px;
             font-size: 13px;
         }
 
         .btn-delete:hover {
-            background: #da190b;
+            background: #666;
         }
 
         .search-box {
@@ -149,21 +143,19 @@
 
         .search-box input {
             padding: 10px;
-            font-size: 15px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
         }
 
         table th {
             background: #f0f0f0;
-            padding: 12px 10px;
+            padding: 10px;
             text-align: left;
             border: 1px solid #ddd;
-            font-weight: 600;
+            font-weight: normal;
             color: #333;
             font-size: 14px;
         }
@@ -176,7 +168,7 @@
         }
 
         table tbody tr:hover {
-            background: #f9f9f9;
+            background: #fafafa;
         }
 
         .action-buttons {
@@ -189,7 +181,7 @@
         }
 
         .error {
-            color: #f44336;
+            color: red;
             text-align: center;
             margin-top: 10px;
             font-size: 14px;
@@ -198,8 +190,7 @@
         .no-data {
             text-align: center;
             color: #999;
-            padding: 40px;
-            font-size: 16px;
+            padding: 30px;
         }
 
         .btn-group {
@@ -211,11 +202,10 @@
 <body>
     <!-- Login Section -->
     <div id="loginSection" class="login-box">
-        <h1>🏫 Fatulla Pilot High School</h1>
-        <h2>Institution Management System</h2>
+        <h1>Fatulla Pilot High School</h1>
         <div style="margin-bottom: 15px;">
-            <label for="passwordInput">Password:</label>
-            <input type="password" id="passwordInput" placeholder="Enter password">
+            <label>Password:</label>
+            <input type="password" id="passwordInput">
         </div>
         <button style="width: 100%;" onclick="login()">Login</button>
         <p class="error" id="loginError"></p>
@@ -224,57 +214,31 @@
     <!-- Main Content Section -->
     <div id="mainContent" class="container hidden">
         <div class="header">
-            <h1>🏫 Institution Management System</h1>
+            <h1>Institution Management</h1>
             <button class="btn-logout" onclick="logout()">Logout</button>
         </div>
 
         <!-- Add/Edit Form -->
         <div class="form-section">
-            <h2 id="formTitle">নতুন প্রতিষ্ঠান যোগ করুন</h2>
             <div class="form-row">
                 <div>
-                    <label for="institutionName">প্রতিষ্ঠানের নাম *</label>
-                    <input type="text" id="institutionName" placeholder="যেমন: ঢাকা কলেজ">
+                    <label>Institution Name *</label>
+                    <input type="text" id="institutionName">
                 </div>
                 <div>
-                    <label for="institutionType">প্রতিষ্ঠানের ধরন *</label>
-                    <select id="institutionType">
-                        <option value="">নির্বাচন করুন</option>
-                        <option value="স্কুল">স্কুল</option>
-                        <option value="কলেজ">কলেজ</option>
-                        <option value="মাদ্রাসা">মাদ্রাসা</option>
-                        <option value="বিশ্ববিদ্যালয়">বিশ্ববিদ্যালয়</option>
-                        <option value="অন্যান্য">অন্যান্য</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="institutionPhone">ফোন নম্বর</label>
-                    <input type="text" id="institutionPhone" placeholder="যেমন: 01711-123456">
-                </div>
-            </div>
-            <div class="form-row">
-                <div>
-                    <label for="institutionAddress">ঠিকানা</label>
-                    <input type="text" id="institutionAddress" placeholder="প্রতিষ্ঠানের ঠিকানা">
-                </div>
-                <div>
-                    <label for="institutionEmail">ইমেইল</label>
-                    <input type="email" id="institutionEmail" placeholder="যেমন: info@institution.edu.bd">
-                </div>
-                <div>
-                    <label for="institutionDetails">অতিরিক্ত তথ্য</label>
-                    <input type="text" id="institutionDetails" placeholder="অন্যান্য বিবরণ">
+                    <label>Description</label>
+                    <textarea id="institutionDesc"></textarea>
                 </div>
             </div>
             <div class="btn-group">
-                <button onclick="saveInstitution()">সংরক্ষণ করুন</button>
-                <button class="btn-cancel hidden" id="cancelBtn" onclick="cancelEdit()">বাতিল করুন</button>
+                <button onclick="saveInstitution()">Save</button>
+                <button class="btn-cancel hidden" id="cancelBtn" onclick="cancelEdit()">Cancel</button>
             </div>
         </div>
 
         <!-- Search Box -->
         <div class="search-box">
-            <input type="text" id="searchInput" placeholder="🔍 Search: নাম, ধরন, ঠিকানা, ফোন..." oninput="searchInstitutions()">
+            <input type="text" id="searchInput" placeholder="Search..." oninput="searchInstitutions()">
         </div>
 
         <!-- Institution Table -->
@@ -286,7 +250,6 @@
         let institutions = [];
         let editingId = null;
 
-        // Load institutions from localStorage
         function loadInstitutions() {
             const saved = localStorage.getItem('institutions');
             if (saved) {
@@ -294,12 +257,10 @@
             }
         }
 
-        // Save institutions to localStorage
         function saveToLocalStorage() {
             localStorage.setItem('institutions', JSON.stringify(institutions));
         }
 
-        // Login function
         function login() {
             const password = document.getElementById('passwordInput').value;
             const errorElement = document.getElementById('loginError');
@@ -311,40 +272,29 @@
                 displayInstitutions();
                 errorElement.textContent = '';
             } else {
-                errorElement.textContent = 'ভুল Password! আবার চেষ্টা করুন।';
+                errorElement.textContent = 'Wrong Password!';
             }
         }
 
-        // Logout function
         function logout() {
             document.getElementById('loginSection').style.display = 'block';
             document.getElementById('mainContent').classList.add('hidden');
             document.getElementById('passwordInput').value = '';
         }
 
-        // Save institution
         function saveInstitution() {
             const name = document.getElementById('institutionName').value.trim();
-            const type = document.getElementById('institutionType').value;
-            const address = document.getElementById('institutionAddress').value.trim();
-            const phone = document.getElementById('institutionPhone').value.trim();
-            const email = document.getElementById('institutionEmail').value.trim();
-            const details = document.getElementById('institutionDetails').value.trim();
+            const desc = document.getElementById('institutionDesc').value.trim();
 
-            if (!name || !type) {
-                alert('প্রতিষ্ঠানের নাম এবং ধরন আবশ্যক!');
+            if (!name) {
+                alert('Institution Name is required!');
                 return;
             }
 
             const institution = {
                 id: editingId || Date.now(),
                 name,
-                type,
-                address,
-                phone,
-                email,
-                details,
-                createdAt: editingId ? institutions.find(i => i.id === editingId).createdAt : new Date().toLocaleString('bn-BD')
+                description: desc
             };
 
             if (editingId) {
@@ -358,61 +308,44 @@
             saveToLocalStorage();
             clearForm();
             displayInstitutions();
-            alert('সফলভাবে সংরক্ষিত হয়েছে!');
         }
 
-        // Clear form
         function clearForm() {
             document.getElementById('institutionName').value = '';
-            document.getElementById('institutionType').value = '';
-            document.getElementById('institutionAddress').value = '';
-            document.getElementById('institutionPhone').value = '';
-            document.getElementById('institutionEmail').value = '';
-            document.getElementById('institutionDetails').value = '';
-            document.getElementById('formTitle').textContent = 'নতুন প্রতিষ্ঠান যোগ করুন';
+            document.getElementById('institutionDesc').value = '';
             document.getElementById('cancelBtn').classList.add('hidden');
             editingId = null;
         }
 
-        // Edit institution
         function editInstitution(id) {
             const institution = institutions.find(i => i.id === id);
             if (institution) {
                 document.getElementById('institutionName').value = institution.name;
-                document.getElementById('institutionType').value = institution.type;
-                document.getElementById('institutionAddress').value = institution.address;
-                document.getElementById('institutionPhone').value = institution.phone;
-                document.getElementById('institutionEmail').value = institution.email;
-                document.getElementById('institutionDetails').value = institution.details;
-                document.getElementById('formTitle').textContent = 'প্রতিষ্ঠান সম্পাদনা করুন';
+                document.getElementById('institutionDesc').value = institution.description;
                 document.getElementById('cancelBtn').classList.remove('hidden');
                 editingId = id;
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
 
-        // Cancel edit
         function cancelEdit() {
             clearForm();
         }
 
-        // Delete institution
         function deleteInstitution(id) {
-            if (confirm('আপনি কি নিশ্চিত যে এই প্রতিষ্ঠানটি মুছে ফেলতে চান?')) {
+            if (confirm('Delete this institution?')) {
                 institutions = institutions.filter(i => i.id !== id);
                 saveToLocalStorage();
                 displayInstitutions();
-                alert('সফলভাবে মুছে ফেলা হয়েছে!');
             }
         }
 
-        // Display institutions
         function displayInstitutions(filteredList = null) {
             const listElement = document.getElementById('institutionList');
             const displayList = filteredList || institutions;
 
             if (displayList.length === 0) {
-                listElement.innerHTML = '<div class="no-data">কোনো প্রতিষ্ঠান পাওয়া যায়নি</div>';
+                listElement.innerHTML = '<div class="no-data">No data</div>';
                 return;
             }
 
@@ -420,14 +353,10 @@
                 <table>
                     <thead>
                         <tr>
-                            <th style="width: 50px;">ক্রমিক</th>
-                            <th>প্রতিষ্ঠানের নাম</th>
-                            <th style="width: 120px;">ধরন</th>
-                            <th>ঠিকানা</th>
-                            <th style="width: 130px;">ফোন</th>
-                            <th style="width: 180px;">ইমেইল</th>
-                            <th>বিবরণ</th>
-                            <th style="width: 130px;">Action</th>
+                            <th style="width: 50px;">No.</th>
+                            <th>Institution Name</th>
+                            <th>Description</th>
+                            <th style="width: 120px;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -435,11 +364,7 @@
                             <tr>
                                 <td style="text-align: center;">${index + 1}</td>
                                 <td><strong>${inst.name}</strong></td>
-                                <td>${inst.type}</td>
-                                <td>${inst.address || '-'}</td>
-                                <td>${inst.phone || '-'}</td>
-                                <td>${inst.email || '-'}</td>
-                                <td>${inst.details || '-'}</td>
+                                <td>${inst.description || '-'}</td>
                                 <td>
                                     <div class="action-buttons">
                                         <button class="btn-edit" onclick="editInstitution(${inst.id})">Edit</button>
@@ -453,28 +378,21 @@
             `;
         }
 
-        // Search institutions
         function searchInstitutions() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             const filtered = institutions.filter(inst => 
                 inst.name.toLowerCase().includes(searchTerm) ||
-                inst.type.toLowerCase().includes(searchTerm) ||
-                inst.address.toLowerCase().includes(searchTerm) ||
-                inst.phone.includes(searchTerm) ||
-                inst.email.toLowerCase().includes(searchTerm) ||
-                inst.details.toLowerCase().includes(searchTerm)
+                (inst.description && inst.description.toLowerCase().includes(searchTerm))
             );
             displayInstitutions(filtered);
         }
 
-        // Enter key login
         document.getElementById('passwordInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 login();
             }
         });
 
-        // Load data on page load
         loadInstitutions();
     </script>
 </body>
