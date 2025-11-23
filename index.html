@@ -142,40 +142,60 @@
             font-size: 16px;
         }
 
-        .institution-list {
+        .form-row {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-row-full {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
             margin-top: 20px;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
-        .institution-card {
+        table thead {
+            background: #667eea;
+            color: white;
+        }
+
+        table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        table tbody tr:hover {
             background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
-            transition: transform 0.3s, box-shadow 0.3s;
         }
 
-        .institution-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        table tbody tr:last-child td {
+            border-bottom: none;
         }
 
-        .institution-card h3 {
-            color: #667eea;
-            margin-bottom: 10px;
-        }
-
-        .institution-card p {
-            margin: 5px 0;
-            color: #555;
-        }
-
-        .institution-card .actions {
-            margin-top: 15px;
+        .action-buttons {
             display: flex;
-            gap: 10px;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            padding: 6px 12px;
+            font-size: 13px;
         }
 
         .form-section {
@@ -230,39 +250,45 @@
         <!-- Add/Edit Form -->
         <div class="form-section">
             <h2 id="formTitle">নতুন প্রতিষ্ঠান যোগ করুন</h2>
-            <div class="input-group">
-                <label for="institutionName">প্রতিষ্ঠানের নাম *</label>
-                <input type="text" id="institutionName" placeholder="যেমন: ঢাকা কলেজ">
+            <div class="form-row">
+                <div class="input-group">
+                    <label for="institutionName">প্রতিষ্ঠানের নাম *</label>
+                    <input type="text" id="institutionName" placeholder="যেমন: ঢাকা কলেজ">
+                </div>
+                <div class="input-group">
+                    <label for="institutionType">প্রতিষ্ঠানের ধরন *</label>
+                    <select id="institutionType">
+                        <option value="">নির্বাচন করুন</option>
+                        <option value="স্কুল">স্কুল</option>
+                        <option value="কলেজ">কলেজ</option>
+                        <option value="মাদ্রাসা">মাদ্রাসা</option>
+                        <option value="বিশ্ববিদ্যালয়">বিশ্ববিদ্যালয়</option>
+                        <option value="অন্যান্য">অন্যান্য</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="institutionPhone">ফোন নম্বর</label>
+                    <input type="text" id="institutionPhone" placeholder="যেমন: 01711-123456">
+                </div>
             </div>
-            <div class="input-group">
-                <label for="institutionType">প্রতিষ্ঠানের ধরন *</label>
-                <select id="institutionType">
-                    <option value="">নির্বাচন করুন</option>
-                    <option value="স্কুল">স্কুল</option>
-                    <option value="কলেজ">কলেজ</option>
-                    <option value="মাদ্রাসা">মাদ্রাসা</option>
-                    <option value="বিশ্ববিদ্যালয়">বিশ্ববিদ্যালয়</option>
-                    <option value="অন্যান্য">অন্যান্য</option>
-                </select>
+            <div class="form-row">
+                <div class="input-group">
+                    <label for="institutionAddress">ঠিকানা</label>
+                    <input type="text" id="institutionAddress" placeholder="প্রতিষ্ঠানের ঠিকানা">
+                </div>
+                <div class="input-group">
+                    <label for="institutionEmail">ইমেইল</label>
+                    <input type="email" id="institutionEmail" placeholder="যেমন: info@institution.edu.bd">
+                </div>
+                <div class="input-group">
+                    <label for="institutionDetails">অতিরিক্ত তথ্য</label>
+                    <input type="text" id="institutionDetails" placeholder="অন্যান্য বিবরণ">
+                </div>
             </div>
-            <div class="input-group">
-                <label for="institutionAddress">ঠিকানা</label>
-                <textarea id="institutionAddress" placeholder="প্রতিষ্ঠানের সম্পূর্ণ ঠিকানা"></textarea>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn" onclick="saveInstitution()">সংরক্ষণ করুন</button>
+                <button class="btn btn-danger hidden" id="cancelBtn" onclick="cancelEdit()">বাতিল করুন</button>
             </div>
-            <div class="input-group">
-                <label for="institutionPhone">ফোন নম্বর</label>
-                <input type="text" id="institutionPhone" placeholder="যেমন: 01711-123456">
-            </div>
-            <div class="input-group">
-                <label for="institutionEmail">ইমেইল</label>
-                <input type="email" id="institutionEmail" placeholder="যেমন: info@institution.edu.bd">
-            </div>
-            <div class="input-group">
-                <label for="institutionDetails">অতিরিক্ত তথ্য</label>
-                <textarea id="institutionDetails" placeholder="অন্যান্য বিবরণ লিখুন"></textarea>
-            </div>
-            <button class="btn" onclick="saveInstitution()">সংরক্ষণ করুন</button>
-            <button class="btn btn-danger hidden" id="cancelBtn" onclick="cancelEdit()">বাতিল করুন</button>
         </div>
 
         <!-- Search Box -->
@@ -271,7 +297,7 @@
         </div>
 
         <!-- Institution List -->
-        <div id="institutionList" class="institution-list"></div>
+        <div id="institutionList"></div>
     </div>
 
     <script>
@@ -409,21 +435,41 @@
                 return;
             }
 
-            listElement.innerHTML = displayList.map(inst => `
-                <div class="institution-card">
-                    <h3>${inst.name}</h3>
-                    <p><strong>ধরন:</strong> ${inst.type}</p>
-                    ${inst.address ? `<p><strong>ঠিকানা:</strong> ${inst.address}</p>` : ''}
-                    ${inst.phone ? `<p><strong>ফোন:</strong> ${inst.phone}</p>` : ''}
-                    ${inst.email ? `<p><strong>ইমেইল:</strong> ${inst.email}</p>` : ''}
-                    ${inst.details ? `<p><strong>বিবরণ:</strong> ${inst.details}</p>` : ''}
-                    <p style="font-size: 12px; color: #999; margin-top: 10px;">যোগ করা হয়েছে: ${inst.createdAt}</p>
-                    <div class="actions">
-                        <button class="btn btn-small btn-success" onclick="editInstitution(${inst.id})">Edit</button>
-                        <button class="btn btn-small btn-danger" onclick="deleteInstitution(${inst.id})">Delete</button>
-                    </div>
-                </div>
-            `).join('');
+            listElement.innerHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ক্রমিক</th>
+                            <th>প্রতিষ্ঠানের নাম</th>
+                            <th>ধরন</th>
+                            <th>ঠিকানা</th>
+                            <th>ফোন</th>
+                            <th>ইমেইল</th>
+                            <th>বিবরণ</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${displayList.map((inst, index) => `
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td><strong>${inst.name}</strong></td>
+                                <td>${inst.type}</td>
+                                <td>${inst.address || '-'}</td>
+                                <td>${inst.phone || '-'}</td>
+                                <td>${inst.email || '-'}</td>
+                                <td>${inst.details || '-'}</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn btn-small btn-success btn-icon" onclick="editInstitution(${inst.id})">Edit</button>
+                                        <button class="btn btn-small btn-danger btn-icon" onclick="deleteInstitution(${inst.id})">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
         }
 
         // Search institutions
