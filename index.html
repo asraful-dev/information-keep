@@ -1,11 +1,453 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Fatulla Pilot High School - Institution Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .login-box {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            max-width: 400px;
+            margin: 100px auto;
+        }
+
+        .login-box h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .input-group input, .input-group textarea, .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus, .input-group textarea:focus, .input-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #5568d3;
+        }
+
+        .btn-small {
+            width: auto;
+            padding: 8px 16px;
+            font-size: 14px;
+            margin-right: 5px;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-success {
+            background: #27ae60;
+        }
+
+        .btn-success:hover {
+            background: #229954;
+        }
+
+        .error {
+            color: #e74c3c;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .main-content {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .header h1 {
+            color: #667eea;
+        }
+
+        .search-box {
+            margin-bottom: 30px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .institution-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .institution-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .institution-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .institution-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .institution-card p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .institution-card .actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .form-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .form-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .no-data {
+            text-align: center;
+            color: #999;
+            padding: 40px;
+            font-size: 18px;
+        }
+    </style>
 </head>
 <body>
-    <p>Fatulla Pilot High School</p>
+    <!-- Login Section -->
+    <div id="loginSection" class="login-box">
+        <h1>🏫 Fatulla Pilot High School</h1>
+        <h2 style="text-align: center; color: #666; margin-bottom: 30px;">Institution Management System</h2>
+        <div class="input-group">
+            <label for="passwordInput">Password দিন:</label>
+            <input type="password" id="passwordInput" placeholder="Password লিখুন">
+        </div>
+        <button class="btn" onclick="login()">Login করুন</button>
+        <p class="error" id="loginError"></p>
+    </div>
+
+    <!-- Main Content Section -->
+    <div id="mainContent" class="main-content container">
+        <div class="header">
+            <h1>🏫 Institution Management</h1>
+            <button class="btn btn-small btn-danger" onclick="logout()">Logout</button>
+        </div>
+
+        <!-- Add/Edit Form -->
+        <div class="form-section">
+            <h2 id="formTitle">নতুন প্রতিষ্ঠান যোগ করুন</h2>
+            <div class="input-group">
+                <label for="institutionName">প্রতিষ্ঠানের নাম *</label>
+                <input type="text" id="institutionName" placeholder="যেমন: ঢাকা কলেজ">
+            </div>
+            <div class="input-group">
+                <label for="institutionType">প্রতিষ্ঠানের ধরন *</label>
+                <select id="institutionType">
+                    <option value="">নির্বাচন করুন</option>
+                    <option value="স্কুল">স্কুল</option>
+                    <option value="কলেজ">কলেজ</option>
+                    <option value="মাদ্রাসা">মাদ্রাসা</option>
+                    <option value="বিশ্ববিদ্যালয়">বিশ্ববিদ্যালয়</option>
+                    <option value="অন্যান্য">অন্যান্য</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="institutionAddress">ঠিকানা</label>
+                <textarea id="institutionAddress" placeholder="প্রতিষ্ঠানের সম্পূর্ণ ঠিকানা"></textarea>
+            </div>
+            <div class="input-group">
+                <label for="institutionPhone">ফোন নম্বর</label>
+                <input type="text" id="institutionPhone" placeholder="যেমন: 01711-123456">
+            </div>
+            <div class="input-group">
+                <label for="institutionEmail">ইমেইল</label>
+                <input type="email" id="institutionEmail" placeholder="যেমন: info@institution.edu.bd">
+            </div>
+            <div class="input-group">
+                <label for="institutionDetails">অতিরিক্ত তথ্য</label>
+                <textarea id="institutionDetails" placeholder="অন্যান্য বিবরণ লিখুন"></textarea>
+            </div>
+            <button class="btn" onclick="saveInstitution()">সংরক্ষণ করুন</button>
+            <button class="btn btn-danger hidden" id="cancelBtn" onclick="cancelEdit()">বাতিল করুন</button>
+        </div>
+
+        <!-- Search Box -->
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="🔍 প্রতিষ্ঠান খুঁজুন (নাম, ধরন, ঠিকানা)" oninput="searchInstitutions()">
+        </div>
+
+        <!-- Institution List -->
+        <div id="institutionList" class="institution-list"></div>
+    </div>
+
+    <script>
+        const CORRECT_PASSWORD = '4321';
+        let institutions = [];
+        let editingId = null;
+
+        // Load institutions from localStorage
+        function loadInstitutions() {
+            const saved = localStorage.getItem('institutions');
+            if (saved) {
+                institutions = JSON.parse(saved);
+            }
+        }
+
+        // Save institutions to localStorage
+        function saveToLocalStorage() {
+            localStorage.setItem('institutions', JSON.stringify(institutions));
+        }
+
+        // Login function
+        function login() {
+            const password = document.getElementById('passwordInput').value;
+            const errorElement = document.getElementById('loginError');
+
+            if (password === CORRECT_PASSWORD) {
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+                loadInstitutions();
+                displayInstitutions();
+                errorElement.textContent = '';
+            } else {
+                errorElement.textContent = 'ভুল Password! আবার চেষ্টা করুন।';
+            }
+        }
+
+        // Logout function
+        function logout() {
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+        }
+
+        // Save institution
+        function saveInstitution() {
+            const name = document.getElementById('institutionName').value.trim();
+            const type = document.getElementById('institutionType').value;
+            const address = document.getElementById('institutionAddress').value.trim();
+            const phone = document.getElementById('institutionPhone').value.trim();
+            const email = document.getElementById('institutionEmail').value.trim();
+            const details = document.getElementById('institutionDetails').value.trim();
+
+            if (!name || !type) {
+                alert('প্রতিষ্ঠানের নাম এবং ধরন আবশ্যক!');
+                return;
+            }
+
+            const institution = {
+                id: editingId || Date.now(),
+                name,
+                type,
+                address,
+                phone,
+                email,
+                details,
+                createdAt: editingId ? institutions.find(i => i.id === editingId).createdAt : new Date().toLocaleString('bn-BD')
+            };
+
+            if (editingId) {
+                const index = institutions.findIndex(i => i.id === editingId);
+                institutions[index] = institution;
+                editingId = null;
+            } else {
+                institutions.push(institution);
+            }
+
+            saveToLocalStorage();
+            clearForm();
+            displayInstitutions();
+            alert('সফলভাবে সংরক্ষিত হয়েছে!');
+        }
+
+        // Clear form
+        function clearForm() {
+            document.getElementById('institutionName').value = '';
+            document.getElementById('institutionType').value = '';
+            document.getElementById('institutionAddress').value = '';
+            document.getElementById('institutionPhone').value = '';
+            document.getElementById('institutionEmail').value = '';
+            document.getElementById('institutionDetails').value = '';
+            document.getElementById('formTitle').textContent = 'নতুন প্রতিষ্ঠান যোগ করুন';
+            document.getElementById('cancelBtn').classList.add('hidden');
+            editingId = null;
+        }
+
+        // Edit institution
+        function editInstitution(id) {
+            const institution = institutions.find(i => i.id === id);
+            if (institution) {
+                document.getElementById('institutionName').value = institution.name;
+                document.getElementById('institutionType').value = institution.type;
+                document.getElementById('institutionAddress').value = institution.address;
+                document.getElementById('institutionPhone').value = institution.phone;
+                document.getElementById('institutionEmail').value = institution.email;
+                document.getElementById('institutionDetails').value = institution.details;
+                document.getElementById('formTitle').textContent = 'প্রতিষ্ঠান সম্পাদনা করুন';
+                document.getElementById('cancelBtn').classList.remove('hidden');
+                editingId = id;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Cancel edit
+        function cancelEdit() {
+            clearForm();
+        }
+
+        // Delete institution
+        function deleteInstitution(id) {
+            if (confirm('আপনি কি নিশ্চিত যে এই প্রতিষ্ঠানটি মুছে ফেলতে চান?')) {
+                institutions = institutions.filter(i => i.id !== id);
+                saveToLocalStorage();
+                displayInstitutions();
+                alert('সফলভাবে মুছে ফেলা হয়েছে!');
+            }
+        }
+
+        // Display institutions
+        function displayInstitutions(filteredList = null) {
+            const listElement = document.getElementById('institutionList');
+            const displayList = filteredList || institutions;
+
+            if (displayList.length === 0) {
+                listElement.innerHTML = '<div class="no-data">কোনো প্রতিষ্ঠান পাওয়া যায়নি</div>';
+                return;
+            }
+
+            listElement.innerHTML = displayList.map(inst => `
+                <div class="institution-card">
+                    <h3>${inst.name}</h3>
+                    <p><strong>ধরন:</strong> ${inst.type}</p>
+                    ${inst.address ? `<p><strong>ঠিকানা:</strong> ${inst.address}</p>` : ''}
+                    ${inst.phone ? `<p><strong>ফোন:</strong> ${inst.phone}</p>` : ''}
+                    ${inst.email ? `<p><strong>ইমেইল:</strong> ${inst.email}</p>` : ''}
+                    ${inst.details ? `<p><strong>বিবরণ:</strong> ${inst.details}</p>` : ''}
+                    <p style="font-size: 12px; color: #999; margin-top: 10px;">যোগ করা হয়েছে: ${inst.createdAt}</p>
+                    <div class="actions">
+                        <button class="btn btn-small btn-success" onclick="editInstitution(${inst.id})">Edit</button>
+                        <button class="btn btn-small btn-danger" onclick="deleteInstitution(${inst.id})">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Search institutions
+        function searchInstitutions() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = institutions.filter(inst => 
+                inst.name.toLowerCase().includes(searchTerm) ||
+                inst.type.toLowerCase().includes(searchTerm) ||
+                inst.address.toLowerCase().includes(searchTerm) ||
+                inst.phone.includes(searchTerm) ||
+                inst.email.toLowerCase().includes(searchTerm)
+            );
+            displayInstitutions(filtered);
+        }
+
+        // Enter key login
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                login();
+            }
+        });
+
+        // Load data on page load
+        loadInstitutions();
+    </script>
 </body>
 </html>
