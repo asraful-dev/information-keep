@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fatulla Pilot High School</title>
+    <title>Information Source</title>
     <style>
         * {
             margin: 0;
@@ -145,7 +145,7 @@
             padding: 10px;
         }
 
-        table {
+      table {
             width: 100%;
             border-collapse: collapse;
         }
@@ -169,6 +169,55 @@
 
         table tbody tr:hover {
             background: #fafafa;
+        }
+
+        /* Responsive Table */
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                border: 0;
+            }
+
+            table thead {
+                display: none;
+            }
+
+            table tr {
+                display: block;
+                margin-bottom: 15px;
+                border: 1px solid #ddd;
+                background: white;
+            }
+
+            table td {
+                display: block;
+                text-align: right;
+                padding: 10px;
+                border: none;
+                border-bottom: 1px solid #eee;
+            }
+
+            table td:last-child {
+                border-bottom: none;
+            }
+
+            table td:before {
+                content: attr(data-label);
+                float: left;
+                font-weight: bold;
+                color: #333;
+            }
+
+            .action-buttons {
+                justify-content: flex-end;
+            }
         }
 
         .action-buttons {
@@ -202,7 +251,7 @@
 <body>
     <!-- Login Section -->
     <div id="loginSection" class="login-box">
-        <h1>Fatulla Pilot High School</h1>
+        <h1>My Information Source</h1>
         <div style="margin-bottom: 15px;">
             <label>Password:</label>
             <input type="password" id="passwordInput">
