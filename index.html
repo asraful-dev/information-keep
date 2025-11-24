@@ -465,7 +465,7 @@
                     <thead>
                         <tr>
                             <th style="width: 50px;">No.</th>
-                            <th>Institution Name</th>
+                            <th>Task</th>
                             <th>Description</th>
                             <th style="width: 120px;">Action</th>
                         </tr>
@@ -474,7 +474,7 @@
                         ${displayList.map((inst, index) => `
                             <tr>
                                 <td data-label="No." style="text-align: center;">${index + 1}</td>
-                                <td data-label="Institution Name"><strong>${inst.name}</strong></td>
+                                <td data-label="Task Name"><strong>${inst.name}</strong></td>
                                 <td data-label="Description">${inst.description || '-'}</td>
                                 <td data-label="Action">
                                     <div class="action-buttons">
