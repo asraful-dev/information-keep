@@ -145,7 +145,7 @@
             padding: 10px;
         }
 
-      table {
+        table {
             width: 100%;
             border-collapse: collapse;
         }
@@ -173,14 +173,50 @@
 
         /* Responsive Table */
         @media screen and (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
             .container {
                 padding: 10px;
+            }
+
+            .login-box {
+                margin: 50px auto;
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 18px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+
+            .btn-logout {
+                width: 100%;
             }
 
             .form-row {
                 grid-template-columns: 1fr;
             }
 
+            .form-section {
+                padding: 10px;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .btn-group button {
+                width: 100%;
+            }
+
+            /* Mobile Table Styles */
             table {
                 border: 0;
             }
@@ -189,34 +225,60 @@
                 display: none;
             }
 
+            table tbody {
+                display: block;
+            }
+
             table tr {
                 display: block;
                 margin-bottom: 15px;
                 border: 1px solid #ddd;
                 background: white;
+                border-radius: 4px;
+                overflow: hidden;
             }
 
             table td {
-                display: block;
-                text-align: right;
-                padding: 10px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 12px;
                 border: none;
                 border-bottom: 1px solid #eee;
+                text-align: left;
             }
 
             table td:last-child {
                 border-bottom: none;
+                background: #f9f9f9;
+                padding: 10px;
             }
 
             table td:before {
                 content: attr(data-label);
-                float: left;
                 font-weight: bold;
                 color: #333;
+                margin-right: 10px;
+                min-width: 100px;
+            }
+
+            table td:first-child {
+                background: #f0f0f0;
+                font-weight: bold;
+            }
+
+            table td:nth-child(2) {
+                background: #fafafa;
             }
 
             .action-buttons {
-                justify-content: flex-end;
+                width: 100%;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .action-buttons button {
+                flex: 1;
             }
         }
 
@@ -263,7 +325,7 @@
     <!-- Main Content Section -->
     <div id="mainContent" class="container hidden">
         <div class="header">
-            <h1>Institution Management</h1>
+            <h1>Task Management</h1>
             <button class="btn-logout" onclick="logout()">Logout</button>
         </div>
 
@@ -271,7 +333,7 @@
         <div class="form-section">
             <div class="form-row">
                 <div>
-                    <label>Institution Name *</label>
+                    <label>Task Name *</label>
                     <input type="text" id="institutionName">
                 </div>
                 <div>
@@ -411,10 +473,10 @@
                     <tbody>
                         ${displayList.map((inst, index) => `
                             <tr>
-                                <td style="text-align: center;">${index + 1}</td>
-                                <td><strong>${inst.name}</strong></td>
-                                <td>${inst.description || '-'}</td>
-                                <td>
+                                <td data-label="No." style="text-align: center;">${index + 1}</td>
+                                <td data-label="Institution Name"><strong>${inst.name}</strong></td>
+                                <td data-label="Description">${inst.description || '-'}</td>
+                                <td data-label="Action">
                                     <div class="action-buttons">
                                         <button class="btn-edit" onclick="editInstitution(${inst.id})">Edit</button>
                                         <button class="btn-delete" onclick="deleteInstitution(${inst.id})">Delete</button>
