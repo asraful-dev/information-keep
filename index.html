@@ -460,9 +460,6 @@
                 </div>
             </div>
             <div class="form-row-full">
-                <textarea id="ranking"  placeholder="র‌্যাকিং">র‌্যাকিং</textarea>
-            </div>
-            <div class="form-row-full">
                 <textarea id="comment"  placeholder="মন্তব্য"></textarea>
             </div>
             <div class="btn-group">
@@ -529,7 +526,6 @@
             const motherName = document.getElementById('motherName').value.trim();
             const className = document.getElementById('className').value.trim();
             const amount = document.getElementById('amount').value.trim();
-            const ranking = document.getElementById('ranking').value.trim();
             const comment = document.getElementById('comment').value.trim();
 
             if (!formNo || !studentName || !fatherName || !motherName || !className || !amount) {
@@ -545,8 +541,7 @@
                 motherName,
                 className,
                 amount,
-                comment,
-                ranking,
+                comment
             };
 
             if (editingId) {
@@ -570,7 +565,6 @@
             document.getElementById('className').value = '';
             document.getElementById('amount').value = '';
             document.getElementById('comment').value = '';
-            document.getElementById('ranking').value = '';
             document.getElementById('cancelBtn').classList.add('hidden');
             editingId = null;
         }
@@ -585,7 +579,6 @@
                 document.getElementById('className').value = data.className;
                 document.getElementById('amount').value = data.amount;
                 document.getElementById('comment').value = data.comment;
-                document.getElementById('ranking').value = data.ranking;
                 document.getElementById('cancelBtn').classList.remove('hidden');
                 editingId = id;
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -639,7 +632,6 @@
                                 </td>
                                 <td data-label="শ্রেণি">${data.className}</td>
                                 <td data-label="টাকা">${data.amount}/-</td>
-                                <td data-label="র‌্যাকিং">${data.ranking || '-'}</td>
                                 <td data-label="মন্তব্য">${data.comment || '-'}</td>
                                 <td data-label="কার্যক্রম" class="no-print">
                                     <div class="action-buttons">
@@ -663,7 +655,6 @@
                 data.motherName.toLowerCase().includes(searchTerm) ||
                 data.className.toLowerCase().includes(searchTerm) ||
                 (data.comment && data.comment.toLowerCase().includes(searchTerm))
-                (data.ranking && data.ranking.toLowerCase().includes(searchTerm))
             );
             displayData(filtered);
         }
