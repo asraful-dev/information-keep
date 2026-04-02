@@ -7,15 +7,42 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: Arial, sans-serif; background: #f4f6f9; padding: 20px; }
-        .container { max-width: 1350px; margin: 0 auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        .container { max-width: 1400px; margin: 0 auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 25px rgba(0,0,0,0.1); }
 
-        .school-header { text-align: center; margin-bottom: 30px; }
-        .school-header h1 { font-size: 28px; color: #1e3a8a; }
-        .school-header h2 { font-size: 21px; color: #334155; }
+        .school-header { text-align: center; margin-bottom: 25px; }
+        .school-header h1 { font-size: 29px; color: #1e3a8a; }
+        .school-header h2 { font-size: 20px; color: #334155; }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: #f8fafc;
+            padding: 18px;
+            border-radius: 10px;
+            border-left: 6px solid #3b82f6;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .summary-card h3 {
+            font-size: 15px;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+
+        .big-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #1e40af;
+        }
 
         .section-group {
             margin-bottom: 35px;
-            border: 1px solid #ddd;
+            border: 1px solid #e2e8f0;
             border-radius: 10px;
             overflow: hidden;
         }
@@ -23,7 +50,7 @@
         .section-header {
             background: #1e40af;
             color: white;
-            padding: 14px 20px;
+            padding: 15px 20px;
             font-size: 18px;
             font-weight: bold;
             display: flex;
@@ -35,45 +62,57 @@
             background: #22c55e;
             color: white;
             border: none;
-            padding: 8px 16px;
+            padding: 8px 18px;
             border-radius: 6px;
             cursor: pointer;
             font-size: 15px;
         }
-        .add-btn:hover { background: #16a34a; }
 
         .student-row {
             display: grid;
-            grid-template-columns: 80px 1fr 1fr 120px 160px 100px 50px;
+            grid-template-columns: 90px 1fr 1fr 140px 170px 50px;
             gap: 12px;
-            padding: 14px 20px;
+            padding: 16px 20px;
             border-bottom: 1px solid #eee;
             align-items: center;
-            background: #fafafa;
+            background: #fafcff;
         }
 
         .student-row:last-child { border-bottom: none; }
 
         input, select {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            padding: 11px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
             font-size: 15px;
+        }
+
+        input:focus, select:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
         }
 
         .status-select {
             font-weight: bold;
+            padding: 11px 12px;
         }
+
+        /* স্ট্যাটাস কালার */
+        .status-reg-no { background-color: #fee2e2; color: #991b1b; }
+        .status-reg-yes { background-color: #dcfce7; color: #166534; }
+        .status-form-no { background-color: #fee2e2; color: #991b1b; }
+        .status-form-yes { background-color: #dbeafe; color: #1e40af; }
 
         .remove-btn {
             background: #ef4444;
             color: white;
             border: none;
-            width: 32px;
-            height: 32px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 18px;
+            font-size: 20px;
+            line-height: 1;
         }
 
         .no-print { display: block; }
@@ -81,6 +120,7 @@
         @media print {
             .no-print { display: none !important; }
             .student-row { background: white !important; }
+            input, select { border: none; background: transparent; }
         }
     </style>
 </head>
@@ -91,10 +131,13 @@
             <h2>ক্লাস নাইন - রেজিস্ট্রেশন ব্যবস্থাপনা (২০২৬)</h2>
         </div>
 
+        <!-- সারাংশ -->
+        <div id="summary" class="summary no-print"></div>
+
         <div id="sectionsContainer"></div>
 
         <div class="no-print" style="text-align: center; margin-top: 30px;">
-            <button onclick="printPage()" style="padding: 12px 40px; font-size: 17px; background: #1e40af;">
+            <button onclick="printPage()" style="padding: 14px 45px; font-size: 17px; background: #1e40af; color: white; border: none; border-radius: 8px; cursor: pointer;">
                 📄 পুরো তালিকা প্রিন্ট করুন
             </button>
         </div>
@@ -102,62 +145,109 @@
 
     <script>
         const branches = [
-            { name: "Female - A", gender: "female" },
-            { name: "Female - B", gender: "female" },
-            { name: "Female - C", gender: "female" },
-            { name: "Male - A", gender: "male" },
-            { name: "Male - B", gender: "male" },
-            { name: "Male - C", gender: "male" }
+            "Female - A", "Female - B", "Female - C",
+            "Male - A", "Male - B", "Male - C"
         ];
 
-        let allData = {}; // { "Female-A": [{roll, name, father, status, comment}, ...] }
+        let allData = {}; // { "Female - A": [ {roll, name, number, status, comment}, ... ] }
 
         function loadData() {
-            const saved = localStorage.getItem('class9Registration2026_easy');
+            const saved = localStorage.getItem('class9Reg2026_final');
             if (saved) allData = JSON.parse(saved);
-            renderAllSections();
+            renderAll();
         }
 
         function saveData() {
-            localStorage.setItem('class9Registration2026_easy', JSON.stringify(allData));
+            localStorage.setItem('class9Reg2026_final', JSON.stringify(allData));
         }
 
-        function renderAllSections() {
+        function renderAll() {
+            renderSummary();
+            renderSections();
+        }
+
+        function renderSummary() {
+            let total = 0;
+            let regYes = 0, regNo = 0;
+            let formYes = 0, formNo = 0;
+
+            Object.values(allData).forEach(students => {
+                total += students.length;
+                students.forEach(s => {
+                    if (s.status === 'reg-yes') regYes++;
+                    else if (s.status === 'reg-no') regNo++;
+                    if (s.status === 'form-yes') formYes++;
+                    else if (s.status === 'form-no') formNo++;
+                });
+            });
+
+            const summaryHTML = `
+                <div class="summary-card">
+                    <h3>মোট শিক্ষার্থী এন্ট্রি</h3>
+                    <div class="big-number">${total}</div>
+                </div>
+                <div class="summary-card">
+                    <h3>রেজিস্ট্রেশন পেয়েছে</h3>
+                    <div class="big-number" style="color:#166534">${regYes}</div>
+                </div>
+                <div class="summary-card">
+                    <h3>রেজিস্ট্রেশন পায়নি</h3>
+                    <div class="big-number" style="color:#991b1b">${regNo}</div>
+                </div>
+                <div class="summary-card">
+                    <h3>ফর্ম পেয়েছে</h3>
+                    <div class="big-number" style="color:#1e40af">${formYes}</div>
+                </div>
+                <div class="summary-card">
+                    <h3>ফর্ম পায়নি</h3>
+                    <div class="big-number" style="color:#991b1b">${formNo}</div>
+                </div>
+            `;
+
+            document.getElementById('summary').innerHTML = summaryHTML;
+        }
+
+        function renderSections() {
             const container = document.getElementById('sectionsContainer');
             let html = '';
 
             branches.forEach(branch => {
-                const students = allData[branch.name] || [];
-                
-                let studentRows = '';
+                const students = allData[branch] || [];
+
+                let rows = '';
                 students.forEach((student, index) => {
-                    studentRows += `
+                    const statusClass = 
+                        student.status === 'reg-yes' ? 'status-reg-yes' :
+                        student.status === 'form-yes' ? 'status-form-yes' :
+                        'status-reg-no';  // reg-no এবং form-no উভয়ই লাল
+
+                    rows += `
                         <div class="student-row">
                             <input type="text" value="${student.roll || ''}" placeholder="রোল" 
-                                   onchange="updateStudent('${branch.name}', ${index}, 'roll', this.value)">
+                                   onchange="updateStudent('${branch}', ${index}, 'roll', this.value)">
                             <input type="text" value="${student.name || ''}" placeholder="শিক্ষার্থীর নাম" 
-                                   onchange="updateStudent('${branch.name}', ${index}, 'name', this.value)">
-                            <input type="text" value="${student.father || ''}" placeholder="পিতার নাম" 
-                                   onchange="updateStudent('${branch.name}', ${index}, 'father', this.value)">
-                            <select onchange="updateStudent('${branch.name}', ${index}, 'status', this.value)" class="status-select">
+                                   onchange="updateStudent('${branch}', ${index}, 'name', this.value)">
+                            <input type="text" value="${student.number || ''}" placeholder="মোবাইল নাম্বার" 
+                                   onchange="updateStudent('${branch}', ${index}, 'number', this.value)">
+                            <select onchange="updateStudent('${branch}', ${index}, 'status', this.value)" class="status-select ${statusClass}">
                                 <option value="reg-no" ${student.status === 'reg-no' ? 'selected' : ''}>রেজি পাইনি</option>
                                 <option value="reg-yes" ${student.status === 'reg-yes' ? 'selected' : ''}>রেজি পেয়েছি</option>
                                 <option value="form-no" ${student.status === 'form-no' ? 'selected' : ''}>ফর্ম পাইনি</option>
                                 <option value="form-yes" ${student.status === 'form-yes' ? 'selected' : ''}>ফর্ম পেয়েছি</option>
                             </select>
                             <input type="text" value="${student.comment || ''}" placeholder="মন্তব্য (ঐচ্ছিক)" 
-                                   onchange="updateStudent('${branch.name}', ${index}, 'comment', this.value)">
-                            <button class="remove-btn" onclick="removeStudent('${branch.name}', ${index})">−</button>
+                                   onchange="updateStudent('${branch}', ${index}, 'comment', this.value)">
+                            <button class="remove-btn" onclick="removeStudent('${branch}', ${index})" title="মুছুন">−</button>
                         </div>`;
                 });
 
                 html += `
                     <div class="section-group">
                         <div class="section-header">
-                            <span>${branch.name}</span>
-                            <button class="add-btn" onclick="addStudent('${branch.name}')">+ নতুন শিক্ষার্থী যোগ করুন</button>
+                            <span>${branch}</span>
+                            <button class="add-btn" onclick="addStudent('${branch}')">+ নতুন শিক্ষার্থী যোগ</button>
                         </div>
-                        ${studentRows}
+                        ${rows || '<div style="padding:25px; text-align:center; color:#888;">এখনো কোন শিক্ষার্থী যোগ করা হয়নি</div>'}
                     </div>`;
             });
 
@@ -170,27 +260,30 @@
             allData[branch].push({
                 roll: '',
                 name: '',
-                father: '',
-                status: 'reg-no',   // ডিফল্ট: রেজিস্ট্রেশন পাইনি
+                number: '',
+                status: 'reg-no',   // ডিফল্ট: রেজি পাইনি (লাল)
                 comment: ''
             });
 
             saveData();
-            renderAllSections();
+            renderAll();
         }
 
         function updateStudent(branch, index, field, value) {
-            if (!allData[branch]) return;
-            allData[branch][index][field] = value;
-            saveData();
+            if (allData[branch] && allData[branch][index]) {
+                allData[branch][index][field] = value;
+                saveData();
+                renderSummary();   // সারাংশ আপডেট
+            }
         }
 
         function removeStudent(branch, index) {
-            if (confirm('এই শিক্ষার্থীকে মুছে ফেলবেন?')) {
+            if (confirm('এই শিক্ষার্থীর তথ্য মুছে ফেলবেন?')) {
                 if (allData[branch]) {
                     allData[branch].splice(index, 1);
+                    if (allData[branch].length === 0) delete allData[branch];
                     saveData();
-                    renderAllSections();
+                    renderAll();
                 }
             }
         }
@@ -199,7 +292,7 @@
             window.print();
         }
 
-        // লোড করুন
+        // শুরু করুন
         window.onload = loadData;
     </script>
 </body>
