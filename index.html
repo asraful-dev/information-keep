@@ -6,19 +6,19 @@
     <title>ক্লাস নাইন রেজিস্ট্রেশন ব্যবস্থাপনা</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; padding: 20px; line-height: 1.6; }
-        .container { max-width: 1350px; margin: 0 auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        body { font-family: Arial, sans-serif; background: #f4f6f9; padding: 20px; }
+        .container { max-width: 1300px; margin: 0 auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
 
-        .school-header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 3px solid #007bff; }
-        .school-header h1 { font-size: 28px; color: #1e3a8a; margin-bottom: 8px; }
+        .school-header { text-align: center; margin-bottom: 30px; }
+        .school-header h1 { font-size: 28px; color: #1e3a8a; }
         .school-header h2 { font-size: 20px; color: #334155; }
 
         .form-section { 
             background: #f8fafc; 
             padding: 25px; 
-            border: 1px solid #e2e8f0; 
-            margin-bottom: 25px; 
+            border: 1px solid #ddd; 
             border-radius: 10px; 
+            margin-bottom: 25px; 
         }
 
         .form-row { 
@@ -28,131 +28,68 @@
             margin-bottom: 20px; 
         }
 
-        .form-row-2 { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr 1fr; 
-            gap: 18px; 
-            margin-bottom: 20px; 
-        }
-
         label {
             display: block;
             margin-bottom: 6px;
-            font-weight: 600;
-            color: #374151;
-            font-size: 14px;
+            font-weight: bold;
+            color: #333;
         }
 
         input, select, textarea { 
             width: 100%; 
-            padding: 12px 14px; 
-            border: 1px solid #cbd5e1; 
-            font-size: 15px; 
+            padding: 12px; 
+            border: 1px solid #ccc; 
             border-radius: 6px; 
-            transition: all 0.3s;
+            font-size: 15px; 
         }
 
         input:focus, select:focus, textarea:focus {
             border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
             outline: none;
         }
 
         button { 
-            padding: 12px 24px; 
+            padding: 12px 25px; 
             background: #1e40af; 
             color: white; 
             border: none; 
-            cursor: pointer; 
             border-radius: 6px; 
+            cursor: pointer; 
             font-size: 15px; 
-            font-weight: 500;
-            transition: background 0.3s;
         }
         button:hover { background: #1e3a8a; }
 
-        .btn-cancel {
-            background: #64748b;
-        }
-        .btn-cancel:hover {
-            background: #475569;
-        }
+        .btn-cancel { background: #64748b; }
+        .btn-cancel:hover { background: #475569; }
 
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            margin-top: 15px; 
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         table th { 
-            background: #0f172a; 
+            background: #1e3a8a; 
             color: white; 
-            padding: 14px 12px; 
+            padding: 14px; 
             text-align: left; 
-            font-weight: 600;
-            position: sticky;
-            top: 0;
-            z-index: 10;
         }
         table td { 
-            padding: 13px 12px; 
-            border-bottom: 1px solid #e2e8f0; 
-            vertical-align: middle;
+            padding: 12px; 
+            border-bottom: 1px solid #ddd; 
         }
 
+        .status-no { background-color: #fee2e2; color: #991b1b; font-weight: bold; text-align: center; }
         .status-reg-yes { background-color: #dcfce7; color: #166534; font-weight: bold; text-align: center; }
-        .status-reg-no { background-color: #fee2e2; color: #991b1b; font-weight: bold; text-align: center; }
         .status-form-yes { background-color: #dbeafe; color: #1e40af; font-weight: bold; text-align: center; }
 
-        .search-box { margin: 20px 0; }
         .search-box input { 
-            padding: 14px 16px; 
             width: 450px; 
+            padding: 14px; 
             font-size: 16px; 
-            border: 2px solid #e2e8f0;
-        }
-
-        .action-buttons button { 
-            padding: 7px 14px; 
-            font-size: 13px; 
-            margin-right: 6px; 
-        }
-
-        .summary {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-            margin: 25px 0;
-        }
-
-        .summary-card {
-            background: white;
-            border-radius: 10px;
-            padding: 18px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            border-left: 5px solid #3b82f6;
-        }
-
-        .summary-card h3 {
-            font-size: 15px;
-            color: #64748b;
-            margin-bottom: 8px;
-        }
-
-        .summary-card .big-number {
-            font-size: 28px;
-            font-weight: bold;
-            color: #1e3a8a;
+            margin: 15px 0; 
         }
 
         .no-print { display: block; }
 
         @media print {
             .no-print { display: none !important; }
-            body { background: white; padding: 0; }
-            .container { box-shadow: none; padding: 10px; }
-            table td, table th { border: 1px solid #000; color: black; }
+            table th, table td { border: 1px solid #000; color: black; }
         }
     </style>
 </head>
@@ -160,23 +97,12 @@
     <div class="container">
         <div class="school-header">
             <h1>ফতুল্লা পাইলট উচ্চ বিদ্যালয়</h1>
-            <h2>ক্লাস নাইন - রেজিস্ট্রেশন ও ফর্ম বিতরণ ব্যবস্থাপনা (২০২৬)</h2>
+            <h2>ক্লাস নাইন - রেজিস্ট্রেশন ব্যবস্থাপনা (২০২৬)</h2>
         </div>
 
-        <!-- সারাংশ -->
-        <div id="summarySection" class="summary no-print"></div>
-
-        <!-- ফর্ম -->
+        <!-- ফর্ম (সহজ করা হয়েছে) -->
         <div class="form-section no-print">
             <div class="form-row">
-                <div>
-                    <label>রোল নং <span style="color:red;">*</span></label>
-                    <input type="text" id="roll" placeholder="রোল নং">
-                </div>
-                <div>
-                    <label>শিক্ষার্থীর নাম <span style="color:red;">*</span></label>
-                    <input type="text" id="studentName" placeholder="পূর্ণ নাম">
-                </div>
                 <div>
                     <label>শাখা <span style="color:red;">*</span></label>
                     <select id="section">
@@ -190,47 +116,49 @@
                     </select>
                 </div>
                 <div>
+                    <label>রোল নং <span style="color:red;">*</span></label>
+                    <input type="text" id="roll" placeholder="রোল নং">
+                </div>
+                <div>
+                    <label>শিক্ষার্থীর নাম <span style="color:red;">*</span></label>
+                    <input type="text" id="studentName" placeholder="শিক্ষার্থীর নাম">
+                </div>
+                <div>
                     <label>পিতার নাম</label>
-                    <input type="text" id="fatherName" placeholder="পিতার নাম">
+                    <input type="text" id="fatherName" placeholder="পিতার নাম (ঐচ্ছিক)">
                 </div>
             </div>
 
-            <div class="form-row-2">
+            <div class="form-row">
                 <div>
-                    <label>রেজিস্ট্রেশন স্ট্যাটাস <span style="color:red;">*</span></label>
-                    <select id="regStatus" onchange="updateFormColors()">
-                        <option value="no">রেজিস্ট্রেশন পাইনি</option>
-                        <option value="yes">রেজিস্ট্রেশন পেয়েছি</option>
+                    <label>রেজিস্ট্রেশন স্ট্যাটাস</label>
+                    <select id="regStatus">
+                        <option value="reg-no">রেজিস্ট্রেশন পাইনি</option>
+                        <option value="reg-yes">রেজিস্ট্রেশন পেয়েছি</option>
+                        <option value="form-no">ফর্ম পাইনি</option>
+                        <option value="form-yes">ফর্ম পেয়েছি</option>
                     </select>
                 </div>
                 <div>
-                    <label>ফর্ম স্ট্যাটাস</label>
-                    <select id="formStatus" onchange="updateFormColors()">
-                        <option value="no">ফর্ম পাইনি</option>
-                        <option value="yes">ফর্ম পেয়েছি</option>
-                    </select>
-                </div>
-                <div>
-                    <label>বিশেষ মন্তব্য</label>
-                    <select id="commentType" onchange="handleCommentType()">
+                    <label>মন্তব্য</label>
+                    <select id="commentType" onchange="toggleCommentBox()">
                         <option value="">মন্তব্য নেই</option>
-                        <option value="custom">নিজে লিখব</option>
+                        <option value="custom">মন্তব্য লিখুন</option>
                         <option value="8th_card">৮ম শ্রেণির কার্ড জমা দেয়নি</option>
                         <option value="later">পরে জমা দিবে</option>
                         <option value="absent">অনুপস্থিত</option>
-                        <option value="fee_issue">ফি সমস্যা</option>
                     </select>
                 </div>
             </div>
 
-            <div id="customCommentDiv" style="display:none; margin-top:15px;">
-                <label>মন্তব্য লিখুন</label>
-                <textarea id="comment" placeholder="বিস্তারিত মন্তব্য লিখুন..." rows="2"></textarea>
+            <div id="commentBox" style="display: none; margin-top: 15px;">
+                <label>বিস্তারিত মন্তব্য</label>
+                <textarea id="comment" rows="2" placeholder="মন্তব্য লিখুন..."></textarea>
             </div>
 
-            <div style="margin-top:20px;">
+            <div style="margin-top: 20px;">
                 <button onclick="saveData()">✅ সংরক্ষণ করুন</button>
-                <button id="cancelBtn" onclick="cancelEdit()" class="btn-cancel" style="display:none; margin-left:12px;">বাতিল করুন</button>
+                <button id="cancelBtn" onclick="cancelEdit()" class="btn-cancel" style="display:none; margin-left: 15px;">বাতিল</button>
             </div>
         </div>
 
@@ -239,9 +167,7 @@
             <input type="text" id="searchInput" placeholder="রোল, নাম, শাখা বা মন্তব্য দিয়ে সার্চ করুন..." oninput="searchData()">
         </div>
 
-        <div class="no-print" style="margin-bottom:15px;">
-            <button onclick="printTable()" style="padding:12px 30px; font-size:16px;">📄 পুরো তালিকা প্রিন্ট করুন</button>
-        </div>
+        <button class="no-print" onclick="printTable()" style="margin-bottom:15px; padding:12px 30px;">📄 পুরো তালিকা প্রিন্ট করুন</button>
 
         <!-- তালিকা -->
         <div id="dataList"></div>
@@ -252,66 +178,55 @@
         let editingId = null;
 
         function loadData() {
-            const saved = localStorage.getItem('class9Registration2026_v2');
+            const saved = localStorage.getItem('class9Reg2026_simple');
             if (saved) dataList = JSON.parse(saved);
             displayData();
-            updateSummary();
         }
 
         function saveToLocalStorage() {
-            localStorage.setItem('class9Registration2026_v2', JSON.stringify(dataList));
+            localStorage.setItem('class9Reg2026_simple', JSON.stringify(dataList));
         }
 
-        function updateFormColors() {
-            // এখানে ফর্মের সিলেক্টগুলোতে রিয়েল-টাইম কালার দেখানো যায়, কিন্তু সেভ করার পর টেবিলে দেখাবে
-        }
-
-        function handleCommentType() {
+        function toggleCommentBox() {
             const type = document.getElementById('commentType').value;
-            const customDiv = document.getElementById('customCommentDiv');
-            const commentField = document.getElementById('comment');
-
-            if (type === 'custom') {
-                customDiv.style.display = 'block';
-                commentField.focus();
-            } else {
-                customDiv.style.display = 'none';
-                if (type === '8th_card') commentField.value = '৮ম শ্রেণির কার্ড জমা দেয়নি';
-                else if (type === 'later') commentField.value = 'পরে জমা দিবে';
-                else if (type === 'absent') commentField.value = 'অনুপস্থিত';
-                else if (type === 'fee_issue') commentField.value = 'ফি জমা দিতে পারেনি';
-                else commentField.value = '';
-            }
+            document.getElementById('commentBox').style.display = (type === 'custom') ? 'block' : 'none';
         }
 
         function saveData() {
+            const section = document.getElementById('section').value;
             const roll = document.getElementById('roll').value.trim();
             const studentName = document.getElementById('studentName').value.trim();
-            const section = document.getElementById('section').value;
-            const fatherName = document.getElementById('fatherName').value.trim();
 
-            const regStatus = document.getElementById('regStatus').value;
-            const formStatus = document.getElementById('formStatus').value;
-            const comment = document.getElementById('comment').value.trim();
-
-            if (!roll || !studentName || !section) {
-                alert('রোল নং, শিক্ষার্থীর নাম এবং শাখা অবশ্যই পূরণ করতে হবে!');
+            if (!section || !roll || !studentName) {
+                alert('শাখা, রোল নং এবং শিক্ষার্থীর নাম পূরণ করা আবশ্যক!');
                 return;
+            }
+
+            const fatherName = document.getElementById('fatherName').value.trim();
+            const regStatus = document.getElementById('regStatus').value;
+            let comment = '';
+
+            const commentType = document.getElementById('commentType').value;
+            if (commentType === 'custom') {
+                comment = document.getElementById('comment').value.trim();
+            } else if (commentType !== '') {
+                if (commentType === '8th_card') comment = '৮ম শ্রেণির কার্ড জমা দেয়নি';
+                else if (commentType === 'later') comment = 'পরে জমা দিবে';
+                else if (commentType === 'absent') comment = 'অনুপস্থিত';
             }
 
             const data = {
                 id: editingId || Date.now(),
-                roll, 
-                studentName, 
-                section, 
+                section,
+                roll,
+                studentName,
                 fatherName,
-                regStatus,      // "yes" = পেয়েছি, "no" = পাইনি
-                formStatus,     // "yes" = পেয়েছি, "no" = পাইনি
+                regStatus,
                 comment
             };
 
             if (editingId) {
-                const index = dataList.findIndex(i => i.id === editingId);
+                const index = dataList.findIndex(item => item.id === editingId);
                 dataList[index] = data;
                 editingId = null;
             } else {
@@ -321,36 +236,38 @@
             saveToLocalStorage();
             clearForm();
             displayData();
-            updateSummary();
         }
 
         function clearForm() {
+            document.getElementById('section').value = '';
             document.getElementById('roll').value = '';
             document.getElementById('studentName').value = '';
-            document.getElementById('section').value = '';
             document.getElementById('fatherName').value = '';
-            document.getElementById('regStatus').value = 'no';   // ডিফল্ট: রেজি পাইনি
-            document.getElementById('formStatus').value = 'no';
+            document.getElementById('regStatus').value = 'reg-no';
             document.getElementById('commentType').value = '';
             document.getElementById('comment').value = '';
-            document.getElementById('customCommentDiv').style.display = 'none';
+            document.getElementById('commentBox').style.display = 'none';
             document.getElementById('cancelBtn').style.display = 'none';
         }
 
         function editData(id) {
-            const data = dataList.find(i => i.id === id);
-            if (data) {
-                document.getElementById('roll').value = data.roll;
-                document.getElementById('studentName').value = data.studentName;
-                document.getElementById('section').value = data.section;
-                document.getElementById('fatherName').value = data.fatherName || '';
-                document.getElementById('regStatus').value = data.regStatus;
-                document.getElementById('formStatus').value = data.formStatus || 'no';
-                document.getElementById('comment').value = data.comment || '';
+            const item = dataList.find(i => i.id === id);
+            if (item) {
+                document.getElementById('section').value = item.section;
+                document.getElementById('roll').value = item.roll;
+                document.getElementById('studentName').value = item.studentName;
+                document.getElementById('fatherName').value = item.fatherName || '';
+                document.getElementById('regStatus').value = item.regStatus;
                 
-                // কমেন্ট টাইপ সেট করা
-                document.getElementById('commentType').value = 'custom';
-                document.getElementById('customCommentDiv').style.display = data.comment ? 'block' : 'none';
+                // মন্তব্য হ্যান্ডেল
+                document.getElementById('comment').value = item.comment || '';
+                if (item.comment) {
+                    document.getElementById('commentType').value = 'custom';
+                    document.getElementById('commentBox').style.display = 'block';
+                } else {
+                    document.getElementById('commentType').value = '';
+                    document.getElementById('commentBox').style.display = 'none';
+                }
 
                 document.getElementById('cancelBtn').style.display = 'inline-block';
                 editingId = id;
@@ -358,83 +275,77 @@
         }
 
         function deleteData(id) {
-            if (confirm('এই শিক্ষার্থীর তথ্য মুছে ফেলবেন?')) {
+            if (confirm('এই তথ্য মুছে ফেলবেন?')) {
                 dataList = dataList.filter(i => i.id !== id);
                 saveToLocalStorage();
                 displayData();
-                updateSummary();
             }
         }
 
-        function getStatusText(status, type) {
-            if (type === 'reg') {
-                return status === 'yes' ? 'রেজিস্ট্রেশন পেয়েছি' : 'রেজিস্ট্রেশন পাইনি';
-            }
-            if (type === 'form') {
-                return status === 'yes' ? 'ফর্ম পেয়েছি' : 'ফর্ম পাইনি';
+        function getStatusTextAndClass(status) {
+            switch(status) {
+                case 'reg-yes': return { text: 'রেজিস্ট্রেশন পেয়েছি', class: 'status-reg-yes' };
+                case 'form-yes': return { text: 'ফর্ম পেয়েছি', class: 'status-form-yes' };
+                case 'form-no': return { text: 'ফর্ম পাইনি', class: 'status-no' };
+                default: return { text: 'রেজিস্ট্রেশন পাইনি', class: 'status-no' };
             }
         }
 
         function displayData(filtered = null) {
-            const listElement = document.getElementById('dataList');
-            const displayList = filtered || dataList;
+            const container = document.getElementById('dataList');
+            const list = filtered || dataList;
 
-            // শাখা অনুসারে সর্ট (Female আগে, তারপর Male)
-            displayList.sort((a, b) => {
-                if (a.section.includes('Female') && !b.section.includes('Female')) return -1;
-                if (!a.section.includes('Female') && b.section.includes('Female')) return 1;
-                return a.section.localeCompare(b.section) || parseInt(a.roll) - parseInt(b.roll);
+            // শাখা → রোল অনুসারে সর্ট
+            list.sort((a, b) => {
+                if (a.section !== b.section) return a.section.localeCompare(b.section);
+                return parseInt(a.roll) - parseInt(b.roll);
             });
 
-            let html = `<table>
-                <thead>
+            let html = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>শাখা</th>
+                            <th>রোল</th>
+                            <th>শিক্ষার্থীর নাম</th>
+                            <th>পিতার নাম</th>
+                            <th>রেজিস্ট্রেশন স্ট্যাটাস</th>
+                            <th>মন্তব্য</th>
+                            <th class="no-print">কার্যক্রম</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+
+            list.forEach(item => {
+                const status = getStatusTextAndClass(item.regStatus);
+                html += `
                     <tr>
-                        <th>রোল</th>
-                        <th>শিক্ষার্থীর নাম</th>
-                        <th>শাখা</th>
-                        <th>পিতার নাম</th>
-                        <th>রেজিস্ট্রেশন</th>
-                        <th>ফর্ম</th>
-                        <th>মন্তব্য</th>
-                        <th class="no-print">কার্যক্রম</th>
-                    </tr>
-                </thead>
-                <tbody>`;
-
-            displayList.forEach(data => {
-                const regClass = data.regStatus === 'yes' ? 'status-reg-yes' : 'status-reg-no';
-                const formClass = data.formStatus === 'yes' ? 'status-form-yes' : 'status-reg-no';
-
-                html += `<tr>
-                    <td><strong>${data.roll}</strong></td>
-                    <td>${data.studentName}</td>
-                    <td>${data.section}</td>
-                    <td>${data.fatherName || '-'}</td>
-                    <td class="${regClass}">${getStatusText(data.regStatus, 'reg')}</td>
-                    <td class="${formClass}">${getStatusText(data.formStatus, 'form')}</td>
-                    <td>${data.comment || '-'}</td>
-                    <td class="no-print action-buttons">
-                        <button onclick="editData(${data.id})" style="background:#2563eb;">✏️ সম্পাদনা</button>
-                        <button onclick="deleteData(${data.id})" style="background:#ef4444;color:white;">🗑 মুছুন</button>
-                    </td>
-                </tr>`;
+                        <td><strong>${item.section}</strong></td>
+                        <td><strong>${item.roll}</strong></td>
+                        <td>${item.studentName}</td>
+                        <td>${item.fatherName || '-'}</td>
+                        <td class="${status.class}">${status.text}</td>
+                        <td>${item.comment || '-'}</td>
+                        <td class="no-print">
+                            <button onclick="editData(${item.id})" style="background:#2563eb; margin-right:5px;">সম্পাদনা</button>
+                            <button onclick="deleteData(${item.id})" style="background:#ef4444; color:white;">মুছুন</button>
+                        </td>
+                    </tr>`;
             });
 
             html += `</tbody></table>`;
-            
-            listElement.innerHTML = displayList.length 
-                ? html 
-                : '<p style="text-align:center; color:#64748b; padding:60px; font-size:18px;">কোন তথ্য পাওয়া যায়নি</p>';
+
+            container.innerHTML = list.length ? html : '<p style="text-align:center; padding:50px; color:#666;">কোনো তথ্য পাওয়া যায়নি</p>';
         }
 
         function searchData() {
             const term = document.getElementById('searchInput').value.toLowerCase().trim();
-            const filtered = dataList.filter(d => 
-                (d.roll && d.roll.toLowerCase().includes(term)) ||
-                (d.studentName && d.studentName.toLowerCase().includes(term)) ||
-                (d.section && d.section.toLowerCase().includes(term)) ||
-                (d.fatherName && d.fatherName.toLowerCase().includes(term)) ||
-                (d.comment && d.comment.toLowerCase().includes(term))
+            const filtered = dataList.filter(item =>
+                item.roll.toLowerCase().includes(term) ||
+                item.studentName.toLowerCase().includes(term) ||
+                item.section.toLowerCase().includes(term) ||
+                (item.fatherName && item.fatherName.toLowerCase().includes(term)) ||
+                (item.comment && item.comment.toLowerCase().includes(term))
             );
             displayData(filtered);
         }
@@ -447,51 +358,7 @@
             clearForm();
         }
 
-        // সারাংশ আপডেট
-        function updateSummary() {
-            const summaryDiv = document.getElementById('summarySection');
-            
-            let total = dataList.length;
-            let regYes = dataList.filter(d => d.regStatus === 'yes').length;
-            let formYes = dataList.filter(d => d.formStatus === 'yes').length;
-
-            // শাখাভিত্তিক
-            const sections = {};
-            dataList.forEach(d => {
-                if (!sections[d.section]) sections[d.section] = { total: 0, regYes: 0, formYes: 0 };
-                sections[d.section].total++;
-                if (d.regStatus === 'yes') sections[d.section].regYes++;
-                if (d.formStatus === 'yes') sections[d.section].formYes++;
-            });
-
-            let sectionHtml = '';
-            Object.keys(sections).sort().forEach(sec => {
-                const s = sections[sec];
-                sectionHtml += `
-                    <div class="summary-card">
-                        <h3>${sec}</h3>
-                        <div style="display:flex; justify-content:space-between; margin-top:10px;">
-                            <div><small>মোট</small><br><span class="big-number">${s.total}</span></div>
-                            <div><small>রেজি পেয়েছে</small><br><span class="big-number" style="color:#166534">${s.regYes}</span></div>
-                            <div><small>ফর্ম পেয়েছে</small><br><span class="big-number" style="color:#1e40af">${s.formYes}</span></div>
-                        </div>
-                    </div>`;
-            });
-
-            summaryDiv.innerHTML = `
-                <div class="summary-card">
-                    <h3>সর্বমোট</h3>
-                    <div style="display:flex; justify-content:space-between; margin-top:10px;">
-                        <div><small>মোট শিক্ষার্থী</small><br><span class="big-number">${total}</span></div>
-                        <div><small>রেজিস্ট্রেশন পেয়েছে</small><br><span class="big-number" style="color:#166534">${regYes}</span></div>
-                        <div><small>ফর্ম পেয়েছে</small><br><span class="big-number" style="color:#1e40af">${formYes}</span></div>
-                    </div>
-                </div>
-                ${sectionHtml}
-            `;
-        }
-
-        // লোড করুন
+        // লোড
         window.onload = loadData;
     </script>
 </body>
