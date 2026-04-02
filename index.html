@@ -43,14 +43,14 @@
             flex: 1;
             min-width: 280px;
         }
-        .search-box input {
+        .search-box input, .search-box select {
             width: 100%;
             padding: 14px 16px;
             font-size: 16px;
             border: 2px solid #cbd5e1;
             border-radius: 8px;
         }
-        .search-box input:focus {
+        .search-box input:focus, .search-box select:focus {
             border-color: #3b82f6;
             outline: none;
         }
@@ -85,26 +85,12 @@
             padding: 14px 20px;
             font-size: 17px;
             font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .add-btn {
-            background: #22c55e;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
         }
 
         /* স্টুডেন্ট রো */
         .student-row {
             display: grid;
-            grid-template-columns: 85px 1fr 1fr 135px 160px 42px;
+            grid-template-columns: 85px 1fr 1fr 135px 160px 80px;
             gap: 10px;
             padding: 15px 18px;
             border-bottom: 1px solid #eee;
@@ -121,7 +107,7 @@
             width: 100%;
         }
 
-        /* রঙিন স্ট্যাটাস অপশন */
+        /* রঙিন স্ট্যাটাস */
         select option {
             padding: 8px;
         }
@@ -130,15 +116,21 @@
         .status-form-no { background: #fee2e2; color: #991b1b; font-weight: bold; }
         .status-form-yes { background: #dbeafe; color: #1e40af; font-weight: bold; }
 
+        .action-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        .add-row-btn {
+            background: #22c55e;
+            color: white;
+        }
         .remove-btn {
             background: #ef4444;
             color: white;
-            border: none;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 22px;
         }
 
         .no-data {
@@ -175,19 +167,11 @@
                 padding: 16px;
                 position: relative;
             }
-            .remove-btn {
-                position: absolute;
-                top: 16px;
-                right: 16px;
+            .action-btn {
+                width: auto;
             }
             .search-area {
                 flex-direction: column;
-            }
-            .backup-buttons button {
-                display: block;
-                margin: 8px auto;
-                width: 90%;
-                max-width: 300px;
             }
         }
 
@@ -314,7 +298,12 @@
                                 <option value="form-yes" class="status-form-yes" ${student.status === 'form-yes' ? 'selected' : ''}>ফর্ম পেয়েছি</option>
                             </select>
                             <input type="text" value="${student.comment || ''}" placeholder="মন্তব্য" onchange="updateStudent('${branch}', ${index}, 'comment', this.value)">
-                            <button class="remove-btn" onclick="removeStudent('${branch}', ${index})">−</button>
+                            
+                            <!-- Action Buttons -->
+                            <div style="display:flex; gap:6px;">
+                                <button class="action-btn add-row-btn" onclick="addStudentAfter('${branch}', ${index})" title="এই শিক্ষার্থীর পরে নতুন যোগ করুন">+</button>
+                                <button class="action-btn remove-btn" onclick="removeStudent('${branch}', ${index})" title="মুছুন">−</button>
+                            </div>
                         </div>`;
                 });
 
@@ -322,7 +311,6 @@
                     <div class="section-group">
                         <div class="section-header">
                             <span>${branch} (${students.length})</span>
-                            <button class="add-btn" onclick="addStudent('${branch}')">+ নতুন শিক্ষার্থী</button>
                         </div>
                         ${rows || '<div class="no-data">এই শাখায় কোনো তথ্য মিলেনি</div>'}
                     </div>`;
@@ -335,6 +323,18 @@
             const searchTerm = document.getElementById('globalSearch').value.trim();
             const selectedBranch = document.getElementById('branchFilter').value;
             renderSections(searchTerm, selectedBranch);
+        }
+
+        // নতুন ফাংশন: নির্দিষ্ট শিক্ষার্থীর পরে যোগ করা
+        function addStudentAfter(branch, index) {
+            if (!allData[branch]) allData[branch] = [];
+            
+            allData[branch].splice(index + 1, 0, {
+                roll: '', name: '', number: '', status: 'reg-no', comment: ''
+            });
+
+            saveData();
+            renderAll();
         }
 
         function addStudent(branch) {
@@ -370,12 +370,11 @@
             renderSections();
         }
 
-        // ==================== Export & Import ====================
+        // Export & Import
         function exportData() {
             const dataStr = JSON.stringify(allData, null, 2);
             const blob = new Blob([dataStr], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
-            
             const link = document.createElement('a');
             link.href = url;
             link.download = `class9_registration_backup_${new Date().toISOString().slice(0,10)}.json`;
@@ -383,34 +382,30 @@
             link.click();
             document.body.removeChild(link);
             URL.revokeObjectURL(url);
-
-            alert('✅ ডাটা সফলভাবে ডাউনলোড হয়েছে!\n\nএই ফাইলটি অন্য ব্রাউজারে Import করতে পারবেন।');
+            alert('✅ ডাটা সফলভাবে ডাউনলোড হয়েছে!');
         }
 
         function importData(event) {
             const file = event.target.files[0];
             if (!file) return;
-
             const reader = new FileReader();
             reader.onload = function(e) {
                 try {
                     const importedData = JSON.parse(e.target.result);
-                    if (confirm('⚠️ বর্তমান সব ডাটা মুছে গিয়ে নতুন ডাটা লোড হবে। Import করবেন?')) {
+                    if (confirm('বর্তমান ডাটা ওভাররাইট হয়ে যাবে। Import করবেন?')) {
                         allData = importedData;
                         saveData();
                         renderAll();
                         alert('✅ ডাটা সফলভাবে Import হয়েছে!');
                     }
                 } catch (err) {
-                    alert('❌ ফাইলটি সঠিক নয়। শুধুমাত্র Export করা .json ফাইল Import করুন।');
+                    alert('❌ ফাইলটি সঠিক নয়।');
                 }
             };
             reader.readAsText(file);
-            // Reset file input
             event.target.value = '';
         }
 
-        // লোড করুন
         window.onload = loadData;
     </script>
 </body>
