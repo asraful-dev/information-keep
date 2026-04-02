@@ -3,544 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ভর্তি ফরম বিতরণ</title>
+    <title>ক্লাস নাইন রেজিস্ট্রেশন ব্যবস্থাপনা</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 1300px; margin: 0 auto; background: white; padding: 20px; border: 1px solid #ddd; }
+        .school-header { text-align: center; margin-bottom: 25px; }
+        .school-header h1 { font-size: 26px; color: #333; }
+        .school-header h2 { font-size: 19px; color: #555; }
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f5f5;
-            padding: 20px;
-        }
+        .form-section { background: #f9f9f9; padding: 20px; border: 1px solid #ddd; margin-bottom: 20px; border-radius: 8px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .form-row-2 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            padding: 20px;
-            border: 1px solid #ddd;
-        }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; font-size: 15px; border-radius: 4px; }
+        button { padding: 10px 20px; background: #333; color: white; border: none; cursor: pointer; border-radius: 4px; font-size: 15px; }
+        button:hover { background: #555; }
 
-        .login-box {
-            max-width: 350px;
-            margin: 100px auto;
-            background: white;
-            padding: 30px;
-            border: 1px solid #ddd;
-        }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        table th { background: #f0f0f0; padding: 12px; text-align: left; border: 1px solid #ddd; font-weight: bold; }
+        table td { padding: 12px; border: 1px solid #ddd; vertical-align: middle; }
 
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
-            font-size: 20px;
-        }
+        .status-yes { background-color: #d4edda; color: #155724; font-weight: bold; text-align: center; }
+        .status-no { background-color: #f8d7da; color: #721c24; font-weight: bold; text-align: center; }
+        .status-bad { background-color: #f8d7da; color: #721c24; font-weight: bold; }
+        .status-done { background-color: #d4edda; color: #155724; font-weight: bold; }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #ddd;
-        }
+        .search-box { margin: 15px 0; }
+        .search-box input { padding: 12px; width: 400px; font-size: 16px; }
 
-        .school-header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
+        .action-buttons button { padding: 6px 12px; font-size: 13px; margin-right: 5px; }
+        .no-print { display: block; }
 
-        .school-header h1 {
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 8px;
-        }
-
-        .school-header h2 {
-            font-size: 18px;
-            color: #555;
-            font-weight: normal;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #333;
-            font-size: 14px;
-        }
-
-        input, textarea {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            font-size: 14px;
-            font-family: Arial, sans-serif;
-        }
-
-        textarea {
-            min-height: 60px;
-            resize: vertical;
-        }
-
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: #666;
-        }
-
-        .form-section {
-            background: #f9f9f9;
-            padding: 15px;
-            border: 1px solid #ddd;
-            margin-bottom: 20px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .form-row-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .form-row-full {
-            margin-bottom: 15px;
-        }
-
-        .parent-names {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        button {
-            padding: 8px 20px;
-            background: #333;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        button:hover {
-            background: #555;
-        }
-
-        .btn-logout {
-            background: #999;
-            padding: 6px 15px;
-        }
-
-        .btn-logout:hover {
-            background: #777;
-        }
-
-        .btn-cancel {
-            background: #999;
-        }
-
-        .btn-cancel:hover {
-            background: #777;
-        }
-
-        .btn-edit {
-            background: #555;
-            padding: 5px 12px;
-            font-size: 13px;
-        }
-
-        .btn-edit:hover {
-            background: #333;
-        }
-
-        .btn-delete {
-            background: #888;
-            padding: 5px 12px;
-            font-size: 13px;
-        }
-
-        .btn-delete:hover {
-            background: #666;
-        }
-
-        .btn-print {
-            background: #888;
-            padding: 5px 12px;
-            font-size: 13px;
-        }
-
-        .btn-print:hover {
-            background: #245d24;
-        }
-
-        .search-box {
-            margin-bottom: 20px;
-        }
-
-        .search-box input {
-            padding: 10px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        table th {
-            background: #f0f0f0;
-            padding: 10px;
-            text-align: left;
-            border: 1px solid #ddd;
-            font-weight: normal;
-            color: #333;
-            font-size: 14px;
-        }
-
-        table td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            font-size: 14px;
-            color: #555;
-        }
-
-        table tbody tr:hover {
-            background: #fafafa;
-        }
-
-        /* Responsive Table */
-        @media screen and (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-
-            .container {
-                padding: 10px;
-            }
-
-            .login-box {
-                margin: 50px auto;
-                padding: 20px;
-            }
-
-            h1 {
-                font-size: 18px;
-            }
-
-            .header {
-                flex-direction: column;
-                gap: 10px;
-                align-items: flex-start;
-            }
-
-            .btn-logout {
-                width: 100%;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .form-row-2 {
-                grid-template-columns: 1fr;
-            }
-
-            .parent-names {
-                grid-template-columns: 1fr;
-            }
-
-            .form-section {
-                padding: 10px;
-            }
-
-            .btn-group {
-                flex-direction: column;
-            }
-
-            .btn-group button {
-                width: 100%;
-            }
-
-            /* Mobile Table Styles */
-            table {
-                border: 0;
-            }
-
-            table thead {
-                display: none;
-            }
-
-            table tbody {
-                display: block;
-            }
-
-            table tr {
-                display: block;
-                margin-bottom: 15px;
-                border: 1px solid #ddd;
-                background: white;
-                border-radius: 4px;
-                overflow: hidden;
-            }
-
-            table td {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 12px;
-                border: none;
-                border-bottom: 1px solid #eee;
-                text-align: left;
-            }
-
-            table td:last-child {
-                border-bottom: none;
-                background: #f9f9f9;
-                padding: 10px;
-            }
-
-            table td:before {
-                content: attr(data-label);
-                font-weight: bold;
-                color: #333;
-                margin-right: 10px;
-                min-width: 100px;
-            }
-
-            table td:first-child {
-                background: #f0f0f0;
-                font-weight: bold;
-            }
-
-            .action-buttons {
-                width: 100%;
-                justify-content: center;
-                gap: 8px;
-            }
-
-            .action-buttons button {
-                flex: 1;
-            }
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 5px;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .error {
-            color: red;
-            text-align: center;
-            margin-top: 10px;
-            font-size: 14px;
-        }
-
-        .no-data {
-            text-align: center;
-            color: #999;
-            padding: 30px;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 10px;
-        }
-
-        /* Print Styles */
         @media print {
-            body {
-                background: white;
-                padding: 0;
-            }
-
-            .no-print {
-                display: none !important;
-            }
-
-            .container {
-                border: none;
-                padding: 20px;
-            }
-
-            table {
-                page-break-inside: auto;
-            }
-
-            table tr {
-                page-break-inside: avoid;
-                page-break-after: auto;
-            }
-
-            table thead {
-                display: table-header-group;
-            }
-
-            .school-header {
-                margin-bottom: 30px;
-            }
-
-            .school-header h1 {
-                font-size: 22px;
-            }
-
-            .school-header h2 {
-                font-size: 16px;
-            }
-        }
-
-        .print-container {
-            display: none;
-        }
-
-        .print-container.active {
-            display: block;
+            .no-print { display: none !important; }
+            table td, table th { border: 1px solid #000; color: black; }
         }
     </style>
 </head>
 <body>
-    <!-- Login Section -->
-    <div id="loginSection" class="login-box">
-        <h1>ভর্তি ফরম বিতরণ সিস্টেম</h1>
-        <div style="margin-bottom: 15px;">
-            <label>পাসওয়ার্ড:</label>
-            <input type="password" id="passwordInput">
-        </div>
-        <button style="width: 100%;" onclick="login()">লগইন</button>
-        <p class="error" id="loginError"></p>
-    </div>
-
-    <!-- Main Content Section -->
-    <div id="mainContent" class="container hidden">
-        <div class="school-header no-print">
+    <div class="container">
+        <div class="school-header">
             <h1>ফতুল্লা পাইলট উচ্চ বিদ্যালয়</h1>
-            <h2>ভর্তি ফরম বিতরণ-২০২৬খ্রি.</h2>
+            <h2>ক্লাস নাইন - রেজিস্ট্রেশন কার্ড বিতরণ ও ব্যবস্থাপনা (২০২৬)</h2>
         </div>
 
-        <div class="header no-print">
-        <div class="container-fluid">
-                <div class="text-end">
-                <button class="btn btn-danger" onclick="logout()">লগ আউট</button>
-                </div>
-        </div>
-        </div>
-
-        <!-- Add/Edit Form -->
+        <!-- ফর্ম -->
         <div class="form-section no-print">
             <div class="form-row">
+                <div><input type="text" id="roll" placeholder="রোল নং *"></div>
+                <div><input type="text" id="studentName" placeholder="শিক্ষার্থীর নাম *"></div>
                 <div>
-                    <input type="text" id="formNo" placeholder="ফরম নং *">
+                    <select id="section">
+                        <option value="">শাখা নির্বাচন করুন *</option>
+                        <option value="Female-A">Female - A</option>
+                        <option value="Female-B">Female - B</option>
+                        <option value="Female-C">Female - C</option>
+                        <option value="Male-A">Male - A</option>
+                        <option value="Male-B">Male - B</option>
+                        <option value="Male-C">Male - C</option>
+                    </select>
                 </div>
-                <div>
-                    <input type="text" id="studentName" placeholder="শিক্ষার্থীর নাম *">
-                </div>
-                <div>
-                    <input type="text" id="className" placeholder="শ্রেণি *">
-                </div>
+                <div><input type="text" id="fatherName" placeholder="পিতার নাম"></div>
             </div>
+
             <div class="form-row-2">
                 <div>
-                    <div class="parent-names">
-                        <input type="text" id="fatherName" placeholder="পিতার নাম">
-                        <input type="text" id="motherName" placeholder="মাতার নাম">
-                    </div>
+                    <label>রেজিস্ট্রেশন স্ট্যাটাস</label>
+                    <select id="regStatus">
+                        <option value="bad">বাদ পড়েছে</option>
+                        <option value="done">সম্পন্ন হয়েছে</option>
+                    </select>
                 </div>
                 <div>
-                    <input type="number" id="amount" placeholder="টাকা *">
+                    <label>রেজিস্ট্রেশন কার্ড জমা</label>
+                    <select id="cardStatus">
+                        <option value="no">না</option>
+                        <option value="yes">হ্যাঁ</option>
+                    </select>
+                </div>
+                <div>
+                    <label>ফর্ম জমা</label>
+                    <select id="formStatus">
+                        <option value="no">না</option>
+                        <option value="yes">হ্যাঁ</option>
+                    </select>
+                </div>
+                <div>
+                    <label>ডকুমেন্ট জমা</label>
+                    <select id="docStatus">
+                        <option value="no">না</option>
+                        <option value="yes">হ্যাঁ</option>
+                    </select>
                 </div>
             </div>
-            <div class="form-row-full">
-                <textarea id="comment"  placeholder="মন্তব্য"></textarea>
+
+            <div style="margin-top:15px;">
+                <textarea id="comment" placeholder="মন্তব্য (যেমন: ৮ম শ্রেণির কার্ড জমা দেয়নি, পরে জমা দিবে ইত্যাদি)" rows="2"></textarea>
             </div>
-            <div class="btn-group">
+
+            <div>
                 <button onclick="saveData()">সংরক্ষণ করুন</button>
-                <button class="btn-cancel hidden" id="cancelBtn" onclick="cancelEdit()">বাতিল</button>
+                <button id="cancelBtn" onclick="cancelEdit()" style="background:#999; display:none; margin-left:10px;">বাতিল</button>
             </div>
         </div>
 
-        <!-- Search Box -->
+        <!-- সার্চ -->
         <div class="search-box no-print">
-            <input type="text" id="searchInput" placeholder="অনুসন্ধান করুন..." oninput="searchData()">
+            <input type="text" id="searchInput" placeholder="রোল, নাম, শাখা, মন্তব্য দিয়ে সার্চ করুন..." oninput="searchData()">
         </div>
 
-        <!-- Print Button -->
-        <div style="margin-bottom: 15px;" class="no-print">
-            <button class="btn-print" onclick="printTable()">সম্পূর্ণ তালিকা প্রিন্ট করুন</button>
-        </div>
+        <button class="no-print" onclick="printTable()" style="margin-bottom:15px; padding:10px 25px;">📄 পুরো তালিকা প্রিন্ট করুন</button>
 
-        <!-- Data Table -->
+        <!-- তালিকা -->
         <div id="dataList"></div>
     </div>
 
     <script>
-        const CORRECT_PASSWORD = '4321';
         let dataList = [];
         let editingId = null;
 
         function loadData() {
-            const saved = localStorage.getItem('admissionData');
-            if (saved) {
-                dataList = JSON.parse(saved);
-            }
+            const saved = localStorage.getItem('class9Registration2026');
+            if (saved) dataList = JSON.parse(saved);
+            displayData();
         }
 
         function saveToLocalStorage() {
-            localStorage.setItem('admissionData', JSON.stringify(dataList));
-        }
-
-        function login() {
-            const password = document.getElementById('passwordInput').value;
-            const errorElement = document.getElementById('loginError');
-
-            if (password === CORRECT_PASSWORD) {
-                document.getElementById('loginSection').style.display = 'none';
-                document.getElementById('mainContent').classList.remove('hidden');
-                loadData();
-                displayData();
-                errorElement.textContent = '';
-            } else {
-                errorElement.textContent = 'ভুল পাসওয়ার্ড!';
-            }
-        }
-
-        function logout() {
-            document.getElementById('loginSection').style.display = 'block';
-            document.getElementById('mainContent').classList.add('hidden');
-            document.getElementById('passwordInput').value = '';
+            localStorage.setItem('class9Registration2026', JSON.stringify(dataList));
         }
 
         function saveData() {
-            const formNo = document.getElementById('formNo').value.trim();
+            const roll = document.getElementById('roll').value.trim();
             const studentName = document.getElementById('studentName').value.trim();
+            const section = document.getElementById('section').value;
             const fatherName = document.getElementById('fatherName').value.trim();
-            const motherName = document.getElementById('motherName').value.trim();
-            const className = document.getElementById('className').value.trim();
-            const amount = document.getElementById('amount').value.trim();
+
+            const regStatus = document.getElementById('regStatus').value;
+            const cardStatus = document.getElementById('cardStatus').value;
+            const formStatus = document.getElementById('formStatus').value;
+            const docStatus = document.getElementById('docStatus').value;
             const comment = document.getElementById('comment').value.trim();
 
-            if (!formNo || !studentName || !fatherName || !motherName || !className || !amount) {
-                alert('প্রয়োজনীয় সকল তথ্য পূরণ করুন!');
+            if (!roll || !studentName || !section) {
+                alert('রোল নং, শিক্ষার্থীর নাম এবং শাখা পূরণ করুন!');
                 return;
             }
 
             const data = {
                 id: editingId || Date.now(),
-                formNo,
-                studentName,
-                fatherName,
-                motherName,
-                className,
-                amount,
+                roll, studentName, section, fatherName,
+                regStatus, cardStatus, formStatus, docStatus,
                 comment
             };
 
@@ -558,137 +171,114 @@
         }
 
         function clearForm() {
-            document.getElementById('formNo').value = '';
+            document.getElementById('roll').value = '';
             document.getElementById('studentName').value = '';
+            document.getElementById('section').value = '';
             document.getElementById('fatherName').value = '';
-            document.getElementById('motherName').value = '';
-            document.getElementById('className').value = '';
-            document.getElementById('amount').value = '';
+            document.getElementById('regStatus').value = 'bad';
+            document.getElementById('cardStatus').value = 'no';
+            document.getElementById('formStatus').value = 'no';
+            document.getElementById('docStatus').value = 'no';
             document.getElementById('comment').value = '';
-            document.getElementById('cancelBtn').classList.add('hidden');
-            editingId = null;
+            document.getElementById('cancelBtn').style.display = 'none';
         }
 
         function editData(id) {
             const data = dataList.find(i => i.id === id);
             if (data) {
-                document.getElementById('formNo').value = data.formNo;
+                document.getElementById('roll').value = data.roll;
                 document.getElementById('studentName').value = data.studentName;
-                document.getElementById('fatherName').value = data.fatherName;
-                document.getElementById('motherName').value = data.motherName;
-                document.getElementById('className').value = data.className;
-                document.getElementById('amount').value = data.amount;
-                document.getElementById('comment').value = data.comment;
-                document.getElementById('cancelBtn').classList.remove('hidden');
+                document.getElementById('section').value = data.section;
+                document.getElementById('fatherName').value = data.fatherName || '';
+                document.getElementById('regStatus').value = data.regStatus;
+                document.getElementById('cardStatus').value = data.cardStatus;
+                document.getElementById('formStatus').value = data.formStatus;
+                document.getElementById('docStatus').value = data.docStatus;
+                document.getElementById('comment').value = data.comment || '';
+                document.getElementById('cancelBtn').style.display = 'inline-block';
                 editingId = id;
-                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
 
-        function cancelEdit() {
-            clearForm();
-        }
-
         function deleteData(id) {
-            if (confirm('এই তথ্য মুছে ফেলতে চান?')) {
+            if (confirm('এই শিক্ষার্থীর তথ্য মুছে ফেলবেন?')) {
                 dataList = dataList.filter(i => i.id !== id);
                 saveToLocalStorage();
                 displayData();
             }
         }
 
-        function displayData(filteredList = null) {
+        function displayData(filtered = null) {
             const listElement = document.getElementById('dataList');
-            const displayList = filteredList || dataList;
+            const displayList = filtered || dataList;
 
-            if (displayList.length === 0) {
-                listElement.innerHTML = '<div class="no-data">কোন তথ্য নেই</div>';
-                return;
-            }
+            let html = `<table>
+                <thead>
+                    <tr>
+                        <th>রোল</th>
+                        <th>শিক্ষার্থীর নাম</th>
+                        <th>শাখা</th>
+                        <th>পিতার নাম</th>
+                        <th>রেজিস্ট্রেশন স্ট্যাটাস</th>
+                        <th>কার্ড জমা</th>
+                        <th>ফর্ম জমা</th>
+                        <th>ডকুমেন্ট জমা</th>
+                        <th>মন্তব্য</th>
+                        <th class="no-print">কার্যক্রম</th>
+                    </tr>
+                </thead>
+                <tbody>`;
 
-            listElement.innerHTML = `
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="width: 50px;">ক্রমিক নং</th>
-                            <th style="width: 80px;">ফরম নং</th>
-                            <th>শিক্ষার্থীর নাম</th>
-                            <th>পিতা ও মাতার নাম</th>
-                            <th style="width: 80px;">শ্রেণি</th>
-                            <th style="width: 80px;">টাকা</th>
-                            <th>মন্তব্য</th>
-                            <th style="width: 150px;" class="no-print">কার্যক্রম</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${displayList.map((data, index) => `
-                            <tr>
-                                <td data-label="ক্রমিক নং" style="text-align: center;">${index + 1}</td>
-                                <td data-label="ফরম নং"><strong>${data.formNo}</strong></td>
-                                <td data-label="শিক্ষার্থীর নাম"><strong>${data.studentName}</strong></td>
-                                <td data-label="পিতা ও মাতার নাম">
-                                    <div>পিতা: ${data.fatherName}</div>
-                                    <div>মাতা: ${data.motherName}</div>
-                                </td>
-                                <td data-label="শ্রেণি">${data.className}</td>
-                                <td data-label="টাকা">${data.amount}/-</td>
-                                <td data-label="মন্তব্য">${data.comment || '-'}</td>
-                                <td data-label="কার্যক্রম" class="no-print">
-                                    <div class="action-buttons">
-                                        <button class="btn-edit" onclick="editData(${data.id})">সম্পাদনা</button>
-                                        <button class="btn-delete" onclick="deleteData(${data.id})">মুছুন</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            `;
+            displayList.forEach(data => {
+                const regClass = data.regStatus === 'done' ? 'status-done' : 'status-bad';
+                const regText = data.regStatus === 'done' ? 'সম্পন্ন' : 'বাদ পড়েছে';
+
+                const cardClass = data.cardStatus === 'yes' ? 'status-yes' : 'status-no';
+                const formClass = data.formStatus === 'yes' ? 'status-yes' : 'status-no';
+                const docClass = data.docStatus === 'yes' ? 'status-yes' : 'status-no';
+
+                html += `<tr>
+                    <td><strong>${data.roll}</strong></td>
+                    <td>${data.studentName}</td>
+                    <td>${data.section}</td>
+                    <td>${data.fatherName || '-'}</td>
+                    <td class="${regClass}">${regText}</td>
+                    <td class="${cardClass}">${data.cardStatus === 'yes' ? 'হ্যাঁ' : 'না'}</td>
+                    <td class="${formClass}">${data.formStatus === 'yes' ? 'হ্যাঁ' : 'না'}</td>
+                    <td class="${docClass}">${data.docStatus === 'yes' ? 'হ্যাঁ' : 'না'}</td>
+                    <td>${data.comment || '-'}</td>
+                    <td class="no-print action-buttons">
+                        <button onclick="editData(${data.id})">সম্পাদনা</button>
+                        <button onclick="deleteData(${data.id})" style="background:#c00;color:white;">মুছুন</button>
+                    </td>
+                </tr>`;
+            });
+
+            html += `</tbody></table>`;
+            listElement.innerHTML = displayList.length ? html : '<p style="text-align:center; color:#999; padding:40px; font-size:18px;">কোন তথ্য পাওয়া যায়নি</p>';
         }
 
         function searchData() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = dataList.filter(data => 
-                data.formNo.toLowerCase().includes(searchTerm) ||
-                data.studentName.toLowerCase().includes(searchTerm) ||
-                data.fatherName.toLowerCase().includes(searchTerm) ||
-                data.motherName.toLowerCase().includes(searchTerm) ||
-                data.className.toLowerCase().includes(searchTerm) ||
-                (data.comment && data.comment.toLowerCase().includes(searchTerm))
+            const term = document.getElementById('searchInput').value.toLowerCase().trim();
+            const filtered = dataList.filter(d => 
+                (d.roll && d.roll.toLowerCase().includes(term)) ||
+                (d.studentName && d.studentName.toLowerCase().includes(term)) ||
+                (d.section && d.section.toLowerCase().includes(term)) ||
+                (d.fatherName && d.fatherName.toLowerCase().includes(term)) ||
+                (d.comment && d.comment.toLowerCase().includes(term))
             );
             displayData(filtered);
         }
 
         function printTable() {
-            // Add school header before printing
-            const dataListElement = document.getElementById('dataList');
-            const originalContent = dataListElement.innerHTML;
-            
-            // Prepare print content with header
-            const printContent = `
-                <div style="text-align: center; margin-bottom: 30px;">
-                    <h1 style="font-size: 22px; color: #333; margin-bottom: 8px;">ফতুল্লা পাইলট উচ্চ বিদ্যালয়</h1>
-                    <h2 style="font-size: 16px; color: #555; font-weight: normal;">ভর্তি ফরম বিতরণ-২০২৬খ্রি.</h2>
-                </div>
-                ${originalContent}
-            `;
-            
-            dataListElement.innerHTML = printContent;
-            
             window.print();
-            
-            // Restore original content after printing
-            setTimeout(() => {
-                dataListElement.innerHTML = originalContent;
-            }, 100);
         }
 
-        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                login();
-            }
-        });
+        function cancelEdit() {
+            clearForm();
+        }
 
+        // লোড করুন
         loadData();
     </script>
 </body>
