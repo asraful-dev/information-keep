@@ -6,87 +6,134 @@
     <title>ক্লাস নাইন রেজিস্ট্রেশন - সহজ ব্যবস্থা</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #f4f6f9; padding: 20px; }
-        .container { max-width: 1400px; margin: 0 auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 25px rgba(0,0,0,0.1); }
-
-        .school-header { text-align: center; margin-bottom: 25px; }
-        .school-header h1 { font-size: 29px; color: #1e3a8a; }
-        .school-header h2 { font-size: 20px; color: #334155; }
-
-        .summary {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
+        body { 
+            font-family: Arial, sans-serif; 
+            background: #f4f6f9; 
+            padding: 15px; 
+            line-height: 1.5;
+        }
+        .container { 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 20px; 
+            border-radius: 12px; 
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1); 
         }
 
+        .school-header { 
+            text-align: center; 
+            margin-bottom: 20px; 
+        }
+        .school-header h1 { 
+            font-size: 26px; 
+            color: #1e3a8a; 
+        }
+        .school-header h2 { 
+            font-size: 18px; 
+            color: #334155; 
+        }
+
+        /* সার্চ বক্স */
+        .search-container {
+            margin-bottom: 25px;
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+            background: white;
+            padding: 10px 0;
+        }
+        .search-box {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 14px 18px;
+            font-size: 16px;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .search-box input:focus {
+            border-color: #3b82f6;
+            outline: none;
+        }
+
+        /* সারাংশ */
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 12px;
+            margin-bottom: 30px;
+        }
         .summary-card {
             background: #f8fafc;
-            padding: 18px;
+            padding: 16px;
             border-radius: 10px;
             border-left: 6px solid #3b82f6;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
-
         .summary-card h3 {
-            font-size: 15px;
+            font-size: 14px;
             color: #64748b;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
-
         .big-number {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: bold;
             color: #1e40af;
         }
 
         .section-group {
-            margin-bottom: 35px;
+            margin-bottom: 30px;
             border: 1px solid #e2e8f0;
             border-radius: 10px;
             overflow: hidden;
         }
-
         .section-header {
             background: #1e40af;
             color: white;
-            padding: 15px 20px;
-            font-size: 18px;
+            padding: 14px 18px;
+            font-size: 17px;
             font-weight: bold;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
-
         .add-btn {
             background: #22c55e;
             color: white;
             border: none;
-            padding: 8px 18px;
+            padding: 8px 16px;
             border-radius: 6px;
             cursor: pointer;
             font-size: 15px;
         }
+        .add-btn:hover { background: #16a34a; }
 
+        /* স্টুডেন্ট রো */
         .student-row {
             display: grid;
-            grid-template-columns: 90px 1fr 1fr 140px 170px 50px;
-            gap: 12px;
-            padding: 16px 20px;
+            grid-template-columns: 80px 1fr 1fr 130px 150px 40px;
+            gap: 10px;
+            padding: 14px 18px;
             border-bottom: 1px solid #eee;
             align-items: center;
             background: #fafcff;
         }
-
         .student-row:last-child { border-bottom: none; }
 
         input, select {
-            padding: 11px 12px;
+            padding: 10px 12px;
             border: 1px solid #cbd5e1;
             border-radius: 6px;
             font-size: 15px;
+            width: 100%;
         }
-
         input:focus, select:focus {
             border-color: #3b82f6;
             box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
@@ -94,14 +141,22 @@
 
         .status-select {
             font-weight: bold;
-            padding: 11px 12px;
+            padding: 10px 12px;
         }
 
         /* স্ট্যাটাস কালার */
-        .status-reg-no { background-color: #fee2e2; color: #991b1b; }
-        .status-reg-yes { background-color: #dcfce7; color: #166534; }
-        .status-form-no { background-color: #fee2e2; color: #991b1b; }
-        .status-form-yes { background-color: #dbeafe; color: #1e40af; }
+        .status-reg-no, .status-form-no { 
+            background-color: #fee2e2 !important; 
+            color: #991b1b !important; 
+        }
+        .status-reg-yes { 
+            background-color: #dcfce7 !important; 
+            color: #166534 !important; 
+        }
+        .status-form-yes { 
+            background-color: #dbeafe !important; 
+            color: #1e40af !important; 
+        }
 
         .remove-btn {
             background: #ef4444;
@@ -112,15 +167,55 @@
             border-radius: 50%;
             cursor: pointer;
             font-size: 20px;
-            line-height: 1;
+        }
+
+        .no-data {
+            padding: 40px;
+            text-align: center;
+            color: #888;
+            font-size: 17px;
         }
 
         .no-print { display: block; }
 
+        /* ==================== মোবাইল রেসপনসিভ ==================== */
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            .school-header h1 { font-size: 22px; }
+            .school-header h2 { font-size: 16px; }
+
+            .student-row {
+                grid-template-columns: 1fr;
+                gap: 8px;
+                padding: 16px;
+                position: relative;
+            }
+            .student-row input,
+            .student-row select {
+                font-size: 15px;
+            }
+            .remove-btn {
+                position: absolute;
+                top: 12px;
+                right: 12px;
+            }
+            .section-header {
+                font-size: 16px;
+                padding: 12px 15px;
+            }
+        }
+
         @media print {
-            .no-print { display: none !important; }
-            .student-row { background: white !important; }
-            input, select { border: none; background: transparent; }
+            .no-print, .search-container { display: none !important; }
+            .student-row { 
+                background: white !important; 
+                grid-template-columns: 80px 1fr 1fr 120px 140px; 
+            }
+            input, select { 
+                border: none; 
+                background: transparent; 
+                padding: 4px; 
+            }
         }
     </style>
 </head>
@@ -129,6 +224,13 @@
         <div class="school-header">
             <h1>ফতুল্লা পাইলট উচ্চ বিদ্যালয়</h1>
             <h2>ক্লাস নাইন - রেজিস্ট্রেশন ব্যবস্থাপনা (২০২৬)</h2>
+        </div>
+
+        <!-- গ্লোবাল সার্চ -->
+        <div class="search-container no-print">
+            <div class="search-box">
+                <input type="text" id="globalSearch" placeholder="রোল, নাম, মোবাইল নাম্বার বা মন্তব্য দিয়ে সার্চ করুন..." onkeyup="filterAll()">
+            </div>
         </div>
 
         <!-- সারাংশ -->
@@ -149,16 +251,16 @@
             "Male - A", "Male - B", "Male - C"
         ];
 
-        let allData = {}; // { "Female - A": [ {roll, name, number, status, comment}, ... ] }
+        let allData = {};
 
         function loadData() {
-            const saved = localStorage.getItem('class9Reg2026_final');
+            const saved = localStorage.getItem('class9Reg2026_final_responsive');
             if (saved) allData = JSON.parse(saved);
             renderAll();
         }
 
         function saveData() {
-            localStorage.setItem('class9Reg2026_final', JSON.stringify(allData));
+            localStorage.setItem('class9Reg2026_final_responsive', JSON.stringify(allData));
         }
 
         function renderAll() {
@@ -175,15 +277,15 @@
                 total += students.length;
                 students.forEach(s => {
                     if (s.status === 'reg-yes') regYes++;
-                    else if (s.status === 'reg-no') regNo++;
+                    else if (s.status === 'reg-no' || s.status === 'form-no') regNo++;
                     if (s.status === 'form-yes') formYes++;
                     else if (s.status === 'form-no') formNo++;
                 });
             });
 
-            const summaryHTML = `
+            document.getElementById('summary').innerHTML = `
                 <div class="summary-card">
-                    <h3>মোট শিক্ষার্থী এন্ট্রি</h3>
+                    <h3>মোট এন্ট্রি</h3>
                     <div class="big-number">${total}</div>
                 </div>
                 <div class="summary-card">
@@ -198,31 +300,39 @@
                     <h3>ফর্ম পেয়েছে</h3>
                     <div class="big-number" style="color:#1e40af">${formYes}</div>
                 </div>
-                <div class="summary-card">
-                    <h3>ফর্ম পায়নি</h3>
-                    <div class="big-number" style="color:#991b1b">${formNo}</div>
-                </div>
             `;
-
-            document.getElementById('summary').innerHTML = summaryHTML;
         }
 
-        function renderSections() {
+        function renderSections(filteredBranch = null, searchTerm = '') {
             const container = document.getElementById('sectionsContainer');
             let html = '';
 
             branches.forEach(branch => {
-                const students = allData[branch] || [];
+                let students = allData[branch] || [];
+
+                // সার্চ ফিল্টার
+                if (searchTerm) {
+                    const term = searchTerm.toLowerCase();
+                    students = students.filter(s => 
+                        (s.roll && s.roll.toLowerCase().includes(term)) ||
+                        (s.name && s.name.toLowerCase().includes(term)) ||
+                        (s.number && s.number.toLowerCase().includes(term)) ||
+                        (s.comment && s.comment.toLowerCase().includes(term))
+                    );
+                }
+
+                // যদি ফিল্টার করা হয় এবং কোনো ম্যাচ না থাকে তাহলে এই শাখা দেখাবে না
+                if (filteredBranch && filteredBranch !== branch && students.length === 0) return;
 
                 let rows = '';
                 students.forEach((student, index) => {
                     const statusClass = 
                         student.status === 'reg-yes' ? 'status-reg-yes' :
                         student.status === 'form-yes' ? 'status-form-yes' :
-                        'status-reg-no';  // reg-no এবং form-no উভয়ই লাল
+                        'status-reg-no';
 
                     rows += `
-                        <div class="student-row">
+                        <div class="student-row" data-branch="${branch}" data-index="${index}">
                             <input type="text" value="${student.roll || ''}" placeholder="রোল" 
                                    onchange="updateStudent('${branch}', ${index}, 'roll', this.value)">
                             <input type="text" value="${student.name || ''}" placeholder="শিক্ষার্থীর নাম" 
@@ -235,36 +345,37 @@
                                 <option value="form-no" ${student.status === 'form-no' ? 'selected' : ''}>ফর্ম পাইনি</option>
                                 <option value="form-yes" ${student.status === 'form-yes' ? 'selected' : ''}>ফর্ম পেয়েছি</option>
                             </select>
-                            <input type="text" value="${student.comment || ''}" placeholder="মন্তব্য (ঐচ্ছিক)" 
+                            <input type="text" value="${student.comment || ''}" placeholder="মন্তব্য" 
                                    onchange="updateStudent('${branch}', ${index}, 'comment', this.value)">
                             <button class="remove-btn" onclick="removeStudent('${branch}', ${index})" title="মুছুন">−</button>
                         </div>`;
                 });
 
-                html += `
-                    <div class="section-group">
-                        <div class="section-header">
-                            <span>${branch}</span>
-                            <button class="add-btn" onclick="addStudent('${branch}')">+ নতুন শিক্ষার্থী যোগ</button>
-                        </div>
-                        ${rows || '<div style="padding:25px; text-align:center; color:#888;">এখনো কোন শিক্ষার্থী যোগ করা হয়নি</div>'}
-                    </div>`;
+                if (students.length > 0 || !searchTerm) {
+                    html += `
+                        <div class="section-group">
+                            <div class="section-header">
+                                <span>${branch} (${students.length})</span>
+                                <button class="add-btn" onclick="addStudent('${branch}')">+ নতুন যোগ করুন</button>
+                            </div>
+                            ${rows || '<div class="no-data">কোনো শিক্ষার্থী মিলেনি</div>'}
+                        </div>`;
+                }
             });
 
-            container.innerHTML = html;
+            container.innerHTML = html || '<div class="no-data">কোনো তথ্য পাওয়া যায়নি</div>';
+        }
+
+        function filterAll() {
+            const term = document.getElementById('globalSearch').value.trim();
+            renderSections(null, term);
         }
 
         function addStudent(branch) {
             if (!allData[branch]) allData[branch] = [];
-            
             allData[branch].push({
-                roll: '',
-                name: '',
-                number: '',
-                status: 'reg-no',   // ডিফল্ট: রেজি পাইনি (লাল)
-                comment: ''
+                roll: '', name: '', number: '', status: 'reg-no', comment: ''
             });
-
             saveData();
             renderAll();
         }
@@ -273,12 +384,12 @@
             if (allData[branch] && allData[branch][index]) {
                 allData[branch][index][field] = value;
                 saveData();
-                renderSummary();   // সারাংশ আপডেট
+                renderSummary();
             }
         }
 
         function removeStudent(branch, index) {
-            if (confirm('এই শিক্ষার্থীর তথ্য মুছে ফেলবেন?')) {
+            if (confirm('এই শিক্ষার্থীকে মুছে ফেলবেন?')) {
                 if (allData[branch]) {
                     allData[branch].splice(index, 1);
                     if (allData[branch].length === 0) delete allData[branch];
@@ -292,7 +403,7 @@
             window.print();
         }
 
-        // শুরু করুন
+        // লোড
         window.onload = loadData;
     </script>
 </body>
