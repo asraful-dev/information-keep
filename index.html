@@ -148,6 +148,23 @@
             font-size: 16px;
         }
 
+        /* Backup Buttons */
+        .backup-buttons {
+            margin: 25px 0;
+            text-align: center;
+        }
+        .backup-buttons button {
+            padding: 12px 24px;
+            margin: 0 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            color: white;
+        }
+        .export-btn { background: #16a34a; }
+        .import-btn { background: #3b82f6; }
+
         .no-print { display: block; }
 
         /* মোবাইল রেসপনসিভ */
@@ -166,10 +183,16 @@
             .search-area {
                 flex-direction: column;
             }
+            .backup-buttons button {
+                display: block;
+                margin: 8px auto;
+                width: 90%;
+                max-width: 300px;
+            }
         }
 
         @media print {
-            .no-print, .search-area { display: none !important; }
+            .no-print, .search-area, .backup-buttons { display: none !important; }
             .student-row { grid-template-columns: 80px 1fr 1fr 120px 140px; }
             input, select { border: none; background: transparent; }
         }
@@ -205,7 +228,14 @@
 
         <div id="sectionsContainer"></div>
 
-        <div class="no-print" style="text-align: center; margin: 30px 0;">
+        <!-- Backup Buttons -->
+        <div class="backup-buttons no-print">
+            <button class="export-btn" onclick="exportData()">📤 Export Data (ডাউনলোড)</button>
+            <button class="import-btn" onclick="document.getElementById('importFile').click()">📥 Import Data (আপলোড)</button>
+            <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importData(event)">
+        </div>
+
+        <div class="no-print" style="text-align: center; margin: 20px 0;">
             <button onclick="printPage()" style="padding: 14px 45px; font-size: 17px; background: #1e40af; color: white; border: none; border-radius: 8px;">
                 📄 পুরো তালিকা প্রিন্ট করুন
             </button>
@@ -255,7 +285,6 @@
 
                 let students = allData[branch] || [];
 
-                // সার্চ ফিল্টার
                 if (searchTerm) {
                     const term = searchTerm.toLowerCase();
                     students = students.filter(s => 
@@ -264,12 +293,6 @@
                         (s.number && s.number.includes(term)) ||
                         (s.comment && s.comment.toLowerCase().includes(term))
                     );
-                }
-
-                if (students.length === 0 && selectedBranch === '' && !searchTerm) {
-                    // খালি শাখা দেখাবে না যদি সার্চ না করা হয়
-                } else if (students.length === 0 && (searchTerm || selectedBranch)) {
-                    return; // সার্চ করলে খালি শাখা দেখাবে না
                 }
 
                 let rows = '';
@@ -347,6 +370,47 @@
             renderSections();
         }
 
+        // ==================== Export & Import ====================
+        function exportData() {
+            const dataStr = JSON.stringify(allData, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `class9_registration_backup_${new Date().toISOString().slice(0,10)}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+
+            alert('✅ ডাটা সফলভাবে ডাউনলোড হয়েছে!\n\nএই ফাইলটি অন্য ব্রাউজারে Import করতে পারবেন।');
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    if (confirm('⚠️ বর্তমান সব ডাটা মুছে গিয়ে নতুন ডাটা লোড হবে। Import করবেন?')) {
+                        allData = importedData;
+                        saveData();
+                        renderAll();
+                        alert('✅ ডাটা সফলভাবে Import হয়েছে!');
+                    }
+                } catch (err) {
+                    alert('❌ ফাইলটি সঠিক নয়। শুধুমাত্র Export করা .json ফাইল Import করুন।');
+                }
+            };
+            reader.readAsText(file);
+            // Reset file input
+            event.target.value = '';
+        }
+
+        // লোড করুন
         window.onload = loadData;
     </script>
 </body>
