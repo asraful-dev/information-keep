@@ -85,6 +85,19 @@
             padding: 14px 20px;
             font-size: 17px;
             font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .add-branch-btn {
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
         }
 
         /* স্টুডেন্ট রো */
@@ -107,10 +120,6 @@
             width: 100%;
         }
 
-        /* রঙিন স্ট্যাটাস */
-        select option {
-            padding: 8px;
-        }
         .status-reg-no { background: #fee2e2; color: #991b1b; font-weight: bold; }
         .status-reg-yes { background: #dcfce7; color: #166534; font-weight: bold; }
         .status-form-no { background: #fee2e2; color: #991b1b; font-weight: bold; }
@@ -122,16 +131,9 @@
             border-radius: 6px;
             cursor: pointer;
             font-size: 16px;
-            width: 100%;
         }
-        .add-row-btn {
-            background: #22c55e;
-            color: white;
-        }
-        .remove-btn {
-            background: #ef4444;
-            color: white;
-        }
+        .add-row-btn { background: #22c55e; color: white; }
+        .remove-btn { background: #ef4444; color: white; }
 
         .no-data {
             padding: 40px 20px;
@@ -140,7 +142,6 @@
             font-size: 16px;
         }
 
-        /* Backup Buttons */
         .backup-buttons {
             margin: 25px 0;
             text-align: center;
@@ -157,18 +158,11 @@
         .export-btn { background: #16a34a; }
         .import-btn { background: #3b82f6; }
 
-        .no-print { display: block; }
-
-        /* মোবাইল রেসপনসিভ */
         @media (max-width: 768px) {
             .student-row {
                 grid-template-columns: 1fr;
                 gap: 10px;
                 padding: 16px;
-                position: relative;
-            }
-            .action-btn {
-                width: auto;
             }
             .search-area {
                 flex-direction: column;
@@ -195,7 +189,7 @@
                 <input type="text" id="globalSearch" placeholder="রোল, নাম, মোবাইল বা মন্তব্য দিয়ে সার্চ করুন..." onkeyup="filterData()">
             </div>
             <div class="search-box">
-                <select id="branchFilter" onchange="filterData()" style="padding:14px 16px; font-size:16px; width:100%;">
+                <select id="branchFilter" onchange="filterData()">
                     <option value="">সব শাখা দেখান</option>
                     <option value="Female - A">Female - A</option>
                     <option value="Female - B">Female - B</option>
@@ -292,16 +286,14 @@
                             <input type="text" value="${student.name || ''}" placeholder="শিক্ষার্থীর নাম" onchange="updateStudent('${branch}', ${index}, 'name', this.value)">
                             <input type="text" value="${student.number || ''}" placeholder="মোবাইল নাম্বার" onchange="updateStudent('${branch}', ${index}, 'number', this.value)">
                             <select onchange="updateStudent('${branch}', ${index}, 'status', this.value)" class="status-select ${statusClass}">
-                                <option value="reg-no" class="status-reg-no" ${student.status === 'reg-no' ? 'selected' : ''}>রেজি পাইনি</option>
-                                <option value="reg-yes" class="status-reg-yes" ${student.status === 'reg-yes' ? 'selected' : ''}>রেজি পেয়েছি</option>
-                                <option value="form-no" class="status-form-no" ${student.status === 'form-no' ? 'selected' : ''}>ফর্ম পাইনি</option>
-                                <option value="form-yes" class="status-form-yes" ${student.status === 'form-yes' ? 'selected' : ''}>ফর্ম পেয়েছি</option>
+                                <option value="reg-no" ${student.status === 'reg-no' ? 'selected' : ''}>রেজি পাইনি</option>
+                                <option value="reg-yes" ${student.status === 'reg-yes' ? 'selected' : ''}>রেজি পেয়েছি</option>
+                                <option value="form-no" ${student.status === 'form-no' ? 'selected' : ''}>ফর্ম পাইনি</option>
+                                <option value="form-yes" ${student.status === 'form-yes' ? 'selected' : ''}>ফর্ম পেয়েছি</option>
                             </select>
                             <input type="text" value="${student.comment || ''}" placeholder="মন্তব্য" onchange="updateStudent('${branch}', ${index}, 'comment', this.value)">
-                            
-                            <!-- Action Buttons -->
                             <div style="display:flex; gap:6px;">
-                                <button class="action-btn add-row-btn" onclick="addStudentAfter('${branch}', ${index})" title="এই শিক্ষার্থীর পরে নতুন যোগ করুন">+</button>
+                                <button class="action-btn add-row-btn" onclick="addStudentAfter('${branch}', ${index})" title="এই শিক্ষার্থীর পরে যোগ করুন">+</button>
                                 <button class="action-btn remove-btn" onclick="removeStudent('${branch}', ${index})" title="মুছুন">−</button>
                             </div>
                         </div>`;
@@ -311,8 +303,11 @@
                     <div class="section-group">
                         <div class="section-header">
                             <span>${branch} (${students.length})</span>
+                            <button class="add-branch-btn" onclick="addStudent('${branch}')">
+                                ➕ নতুন শিক্ষার্থী যোগ করুন
+                            </button>
                         </div>
-                        ${rows || '<div class="no-data">এই শাখায় কোনো তথ্য মিলেনি</div>'}
+                        ${rows || '<div class="no-data">এই শাখায় কোনো তথ্য নেই</div>'}
                     </div>`;
             });
 
@@ -325,21 +320,18 @@
             renderSections(searchTerm, selectedBranch);
         }
 
-        // নতুন ফাংশন: নির্দিষ্ট শিক্ষার্থীর পরে যোগ করা
-        function addStudentAfter(branch, index) {
+        function addStudent(branch) {
             if (!allData[branch]) allData[branch] = [];
-            
-            allData[branch].splice(index + 1, 0, {
-                roll: '', name: '', number: '', status: 'reg-no', comment: ''
-            });
-
+            allData[branch].push({ roll: '', name: '', number: '', status: 'reg-no', comment: '' });
             saveData();
             renderAll();
         }
 
-        function addStudent(branch) {
+        function addStudentAfter(branch, index) {
             if (!allData[branch]) allData[branch] = [];
-            allData[branch].push({ roll: '', name: '', number: '', status: 'reg-no', comment: '' });
+            allData[branch].splice(index + 1, 0, {
+                roll: '', name: '', number: '', status: 'reg-no', comment: ''
+            });
             saveData();
             renderAll();
         }
