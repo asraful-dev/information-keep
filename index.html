@@ -10,6 +10,7 @@
             font-family: Arial, sans-serif; 
             background: #f4f6f9; 
             padding: 15px; 
+            line-height: 1.5;
         }
         .container { 
             max-width: 1450px; 
@@ -22,10 +23,10 @@
 
         .school-header { 
             text-align: center; 
-            margin-bottom: 20px; 
+            margin-bottom: 25px; 
         }
-        .school-header h1 { font-size: 26px; color: #1e3a8a; }
-        .school-header h2 { font-size: 18px; color: #334155; }
+        .school-header h1 { font-size: 28px; color: #1e3a8a; }
+        .school-header h2 { font-size: 19px; color: #334155; }
 
         /* সার্চ এরিয়া */
         .search-area {
@@ -37,11 +38,12 @@
             top: 10px;
             z-index: 100;
             background: white;
-            padding: 10px 0;
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
         }
         .search-box {
             flex: 1;
-            min-width: 280px;
+            min-width: 260px;
         }
         .search-box input, .search-box select {
             width: 100%;
@@ -64,17 +66,19 @@
         }
         .summary-card {
             background: #f8fafc;
-            padding: 16px;
+            padding: 18px;
             border-radius: 10px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            text-align: center;
         }
         .big-number {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: bold;
+            margin-top: 8px;
         }
 
         .section-group {
-            margin-bottom: 30px;
+            margin-bottom: 35px;
             border: 1px solid #e2e8f0;
             border-radius: 10px;
             overflow: hidden;
@@ -82,8 +86,8 @@
         .section-header {
             background: #1e40af;
             color: white;
-            padding: 14px 20px;
-            font-size: 17px;
+            padding: 16px 20px;
+            font-size: 18px;
             font-weight: bold;
             display: flex;
             justify-content: space-between;
@@ -94,7 +98,7 @@
             background: #22c55e;
             color: white;
             border: none;
-            padding: 8px 16px;
+            padding: 9px 18px;
             border-radius: 6px;
             cursor: pointer;
             font-size: 15px;
@@ -103,9 +107,9 @@
         /* স্টুডেন্ট রো */
         .student-row {
             display: grid;
-            grid-template-columns: 85px 1fr 1fr 135px 160px 80px;
+            grid-template-columns: 85px 1fr 1fr 145px 170px 85px;
             gap: 10px;
-            padding: 15px 18px;
+            padding: 14px 18px;
             border-bottom: 1px solid #eee;
             align-items: center;
             background: #fafcff;
@@ -120,6 +124,7 @@
             width: 100%;
         }
 
+        /* স্ট্যাটাস কালার */
         .status-reg-no { background: #fee2e2; color: #991b1b; font-weight: bold; }
         .status-reg-yes { background: #dcfce7; color: #166534; font-weight: bold; }
         .status-form-no { background: #fee2e2; color: #991b1b; font-weight: bold; }
@@ -130,24 +135,24 @@
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 17px;
         }
         .add-row-btn { background: #22c55e; color: white; }
         .remove-btn { background: #ef4444; color: white; }
 
         .no-data {
-            padding: 40px 20px;
+            padding: 50px 20px;
             text-align: center;
             color: #777;
-            font-size: 16px;
+            font-size: 17px;
         }
 
         .backup-buttons {
-            margin: 25px 0;
+            margin: 30px 0;
             text-align: center;
         }
         .backup-buttons button {
-            padding: 12px 24px;
+            padding: 12px 26px;
             margin: 0 10px;
             font-size: 16px;
             border: none;
@@ -158,6 +163,38 @@
         .export-btn { background: #16a34a; }
         .import-btn { background: #3b82f6; }
 
+        /* ================== প্রিন্ট স্টাইল ================== */
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; padding: 10px; max-width: 100%; }
+            .no-print, .search-area, .backup-buttons, .add-branch-btn, .action-btn { display: none !important; }
+            
+            .student-row {
+                grid-template-columns: 70px 1fr 1fr 130px 150px;
+                gap: 8px;
+                padding: 10px 12px;
+                font-size: 14px;
+            }
+            input, select {
+                border: none !important;
+                background: transparent !important;
+                font-size: 14px;
+                padding: 4px 6px;
+            }
+            .section-header {
+                background: #1e40af !important;
+                color: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .status-reg-yes { background: #dcfce7 !important; color: #166534 !important; }
+            .status-reg-no, .status-form-no { background: #fee2e2 !important; color: #991b1b !important; }
+            .status-form-yes { background: #dbeafe !important; color: #1e40af !important; }
+            
+            .summary { margin-bottom: 20px; }
+            .summary-card { break-inside: avoid; }
+        }
+
         @media (max-width: 768px) {
             .student-row {
                 grid-template-columns: 1fr;
@@ -167,12 +204,6 @@
             .search-area {
                 flex-direction: column;
             }
-        }
-
-        @media print {
-            .no-print, .search-area, .backup-buttons { display: none !important; }
-            .student-row { grid-template-columns: 80px 1fr 1fr 120px 140px; }
-            input, select { border: none; background: transparent; }
         }
     </style>
 </head>
@@ -199,6 +230,15 @@
                     <option value="Male - C">Male - C</option>
                 </select>
             </div>
+            <div class="search-box">
+                <select id="statusFilter" onchange="filterData()">
+                    <option value="">সব স্ট্যাটাস</option>
+                    <option value="reg-yes">রেজিস্ট্রেশন পেয়েছে</option>
+                    <option value="reg-no">রেজিস্ট্রেশন পায়নি</option>
+                    <option value="form-yes">ফর্ম পেয়েছে</option>
+                    <option value="form-no">ফর্ম পায়নি</option>
+                </select>
+            </div>
         </div>
 
         <!-- সারাংশ -->
@@ -213,8 +253,8 @@
             <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importData(event)">
         </div>
 
-        <div class="no-print" style="text-align: center; margin: 20px 0;">
-            <button onclick="printPage()" style="padding: 14px 45px; font-size: 17px; background: #1e40af; color: white; border: none; border-radius: 8px;">
+        <div class="no-print" style="text-align: center; margin: 25px 0;">
+            <button onclick="printPage()" style="padding: 14px 50px; font-size: 18px; background: #1e40af; color: white; border: none; border-radius: 8px; cursor: pointer;">
                 📄 পুরো তালিকা প্রিন্ট করুন
             </button>
         </div>
@@ -235,7 +275,7 @@
         }
 
         function renderSummary() {
-            let total = 0, regYes = 0, regNo = 0, formYes = 0;
+            let total = 0, regYes = 0, regNo = 0, formYes = 0, formNo = 0;
 
             Object.values(allData).forEach(list => {
                 total += list.length;
@@ -243,18 +283,19 @@
                     if (s.status === 'reg-yes') regYes++;
                     else regNo++;
                     if (s.status === 'form-yes') formYes++;
+                    else if (s.status === 'form-no') formNo++;
                 });
             });
 
             document.getElementById('summary').innerHTML = `
-                <div class="summary-card"><h3>মোট এন্ট্রি</h3><div class="big-number" style="color:#1e40af">${total}</div></div>
-                <div class="summary-card"><h3>রেজি পেয়েছে</h3><div class="big-number" style="color:#166534">${regYes}</div></div>
-                <div class="summary-card"><h3>রেজি পায়নি</h3><div class="big-number" style="color:#991b1b">${regNo}</div></div>
+                <div class="summary-card"><h3>মোট শিক্ষার্থী</h3><div class="big-number" style="color:#1e40af">${total}</div></div>
+                <div class="summary-card"><h3>রেজিস্ট্রেশন পেয়েছে</h3><div class="big-number" style="color:#166534">${regYes}</div></div>
+                <div class="summary-card"><h3>রেজিস্ট্রেশন পায়নি</h3><div class="big-number" style="color:#991b1b">${regNo}</div></div>
                 <div class="summary-card"><h3>ফর্ম পেয়েছে</h3><div class="big-number" style="color:#1e40af">${formYes}</div></div>
             `;
         }
 
-        function renderSections(searchTerm = '', selectedBranch = '') {
+        function renderSections(searchTerm = '', selectedBranch = '', selectedStatus = '') {
             const container = document.getElementById('sectionsContainer');
             let html = '';
 
@@ -263,6 +304,7 @@
 
                 let students = allData[branch] || [];
 
+                // সার্চ ফিল্টার
                 if (searchTerm) {
                     const term = searchTerm.toLowerCase();
                     students = students.filter(s => 
@@ -273,12 +315,22 @@
                     );
                 }
 
+                // স্ট্যাটাস ফিল্টার
+                if (selectedStatus) {
+                    students = students.filter(s => s.status === selectedStatus);
+                }
+
                 let rows = '';
                 students.forEach((student, index) => {
                     const statusClass = 
                         student.status === 'reg-yes' ? 'status-reg-yes' :
                         student.status === 'form-yes' ? 'status-form-yes' :
                         'status-reg-no';
+
+                    const statusText = 
+                        student.status === 'reg-yes' ? 'রেজি পেয়েছি' :
+                        student.status === 'form-yes' ? 'ফর্ম পেয়েছি' :
+                        student.status === 'form-no' ? 'ফর্ম পাইনি' : 'রেজি পাইনি';
 
                     rows += `
                         <div class="student-row">
@@ -299,16 +351,18 @@
                         </div>`;
                 });
 
-                html += `
-                    <div class="section-group">
-                        <div class="section-header">
-                            <span>${branch} (${students.length})</span>
-                            <button class="add-branch-btn" onclick="addStudent('${branch}')">
-                                ➕ নতুন শিক্ষার্থী যোগ করুন
-                            </button>
-                        </div>
-                        ${rows || '<div class="no-data">এই শাখায় কোনো তথ্য নেই</div>'}
-                    </div>`;
+                if (students.length > 0 || !selectedBranch) {
+                    html += `
+                        <div class="section-group">
+                            <div class="section-header">
+                                <span>${branch} (${students.length})</span>
+                                <button class="add-branch-btn" onclick="addStudent('${branch}')">
+                                    ➕ নতুন শিক্ষার্থী যোগ করুন
+                                </button>
+                            </div>
+                            ${rows || '<div class="no-data">এই শাখায় কোনো তথ্য নেই</div>'}
+                        </div>`;
+                }
             });
 
             container.innerHTML = html || '<div class="no-data">কোনো তথ্য পাওয়া যায়নি</div>';
@@ -317,7 +371,8 @@
         function filterData() {
             const searchTerm = document.getElementById('globalSearch').value.trim();
             const selectedBranch = document.getElementById('branchFilter').value;
-            renderSections(searchTerm, selectedBranch);
+            const selectedStatus = document.getElementById('statusFilter').value;
+            renderSections(searchTerm, selectedBranch, selectedStatus);
         }
 
         function addStudent(branch) {
@@ -329,9 +384,7 @@
 
         function addStudentAfter(branch, index) {
             if (!allData[branch]) allData[branch] = [];
-            allData[branch].splice(index + 1, 0, {
-                roll: '', name: '', number: '', status: 'reg-no', comment: ''
-            });
+            allData[branch].splice(index + 1, 0, { roll: '', name: '', number: '', status: 'reg-no', comment: '' });
             saveData();
             renderAll();
         }
